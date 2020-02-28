@@ -1,0 +1,13 @@
+{
+  "build": {
+    "env": {
+      "AUTH0_DOMAIN": "@hedron-auth0-domain",
+      "AUTH0_CLIENT_ID": "@hedron-dashboard-client-id",
+      "AUTH0_CLIENT_SECRET": "@hedron-dashboard-client-secret",
+      "AUTH0_AUDIENCE": "@hedron-backend-auth0-identifier",
+      "REDIRECT_URI": "https://hedron-dashboard.now.sh/api/callback",
+      "POST_LOGOUT_REDIRECT_URI": "https://hedron-dashboard.now.sh",
+      "SESSION_COOKIE_SECRET": "viloxyf_z2GW6K4CT-KQD_MoLEA2wqv5jWuq4Jd0P7ymgG5GJGMpvMneXZzhK3sL"
+    }
+  }
+}

@@ -2,6 +2,8 @@ import { NextPage } from "next";
 
 import DefaultLayout from "../layouts/DefaultLayout";
 
+import auth0 from '../utils/auth0';
+
 const Index: NextPage<{ userAgent: string }> = ({ userAgent }) => {
   return (
     <DefaultLayout>
