@@ -1,0 +1,55 @@
+// We can import bulma into the project using Sass.
+@import "../node_modules/bulma/bulma.sass";
+
+.hedron-layout {
+  margin: 0 !important;
+  min-height: 100vh;
+}
+
+.hedron-sidebar {
+  background-color: #43425D;
+  padding: 0 !important;
+}
+
+.hedron-sidebar-menu {
+  height: 55px;
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+}
+
+.hedron-sidebar-menu:hover {
+  background-color: #3C3B53;
+  cursor: pointer;
+  border-left: 5px solid #9290E1;
+}
+
+.hedron-sidebar-menu:hover i {
+  color: #9290E1;
+}
+
+.hedron-sidebar-menu-selected {
+  background-color: #3C3B53;
+  cursor: pointer;
+  border-left: 5px solid #9290E1;
+}
+
+.hedron-sidebar-menu-selected i {
+  color: #9290E1;
+}
+
+.hedron-sidebar-menu span {
+  margin-left: 0.5rem;
+}
+
+.hedron-logo {
+  height: 70px;
+  background-color: #3C3B53;
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+}
+
+.hedron-logo span {
+  font-weight: bold;
+}
