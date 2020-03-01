@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { NextPage, NextPageContext } from 'next';
+import { NextPage, NextPageContext, NextApiRequest } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import Router from 'next/router';
 import fetch from 'isomorphic-unfetch';
+import auth0 from '../utils/auth0';
 
 import Header from '../components/Header';
 import '../styles/styles.scss';
@@ -28,29 +29,35 @@ type LayoutProps = {
 const DefaultLayout = (WrappedComponent: NextPage) => {
   return class extends Component<LayoutProps> {
 
-    static async getInitialProps (ctx: NextPageContext) {
-      if (process.browser) {
-        const response = await fetch(`${process.env.POST_LOGOUT_REDIRECT_URI}/api/me`);
-        const user = await response.json();
-        const authenticated = !user.error;
-
-        const componentProps =
+    static async getInitialProps(ctx: NextPageContext) {
+      const componentProps =
           WrappedComponent.getInitialProps &&
-          (await WrappedComponent.getInitialProps(ctx))
+          (await WrappedComponent.getInitialProps(ctx));
 
-        return { ...componentProps, user, authenticated };
+      if (process.browser) {
+        const response = await fetch(`${process.env.POST_LOGOUT_REDIRECT_URI}/api/token`);
+        const session = await response.json();
+        if (!session.user) {
+          Router.push('/api/login');
+          return { authenticated: false };
+        } else {
+          return { ...componentProps, ...session, authenticated: true };
+        }
       } else {
-        return {}
+        const session = await auth0.getSession((ctx.req as NextApiRequest));
+        if (!session?.user) {
+          ctx.res?.writeHead(302, {
+            Location: '/api/login'
+          });
+          ctx.res?.end();
+          return { authenticated: false };
+        } else {
+          return { ...componentProps, ...session, authenticated: true };
+        }
       }
     }
 
     render () {
-      const { user, authenticated } = this.props;
-
-      if (user && !authenticated) {
-        Router.push('/api/login');
-      }
-
       return (
         <div className="columns is-gapless hedron-layout">
           <div className="column is-2 hedron-sidebar">
