@@ -1,20 +1,33 @@
 import { NextPage } from "next";
 
-import DefaultLayout from "../layouts/DefaultLayout";
+import withDefaultLayout from "../layouts/DefaultLayout";
 
-import auth0 from '../utils/auth0';
-
-const Index: NextPage<{ userAgent: string }> = ({ userAgent }) => {
+const Index: NextPage<{}> = (props) => {
+  console.log(props);
   return (
-    <DefaultLayout>
-      <p>Hello to Next.js - User Agent: {userAgent}</p>
-    </DefaultLayout>
+    <div className="card">
+      <div className="card-content">
+        <p className="title">
+          “There are two hard things in computer science: cache invalidation, naming things, and off-by-one errors.”
+          </p>
+        <p className="subtitle">
+          Jeff Atwood
+          </p>
+      </div>
+      <footer className="card-footer">
+        <p className="card-footer-item">
+          <span>
+            View on <a href="https://twitter.com/codinghorror/status/506010907021828096">Twitter</a>
+          </span>
+        </p>
+        <p className="card-footer-item">
+          <span>
+            Share on <a href="#">Facebook</a>
+          </span>
+        </p>
+      </footer>
+    </div>
   );
 }
 
-Index.getInitialProps = async ({ req }) => {
-  const userAgent = req ? req.headers['user-agent'] || '' : navigator.userAgent;
-  return { userAgent };
-};
-
-export default Index;
+export default withDefaultLayout(Index);
