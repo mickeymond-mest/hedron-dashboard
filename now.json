@@ -7,7 +7,9 @@
       "AUTH0_AUDIENCE": "@hedron-backend-auth0-identifier",
       "REDIRECT_URI": "https://hedron-dashboard.now.sh/api/callback",
       "POST_LOGOUT_REDIRECT_URI": "https://hedron-dashboard.now.sh",
-      "SESSION_COOKIE_SECRET": "viloxyf_z2GW6K4CT-KQD_MoLEA2wqv5jWuq4Jd0P7ymgG5GJGMpvMneXZzhK3sL"
+      "SESSION_COOKIE_SECRET": "viloxyf_z2GW6K4CT-KQD_MoLEA2wqv5jWuq4Jd0P7ymgG5GJGMpvMneXZzhK3sL",
+      "GRAPHQL_ENDPOINT": "https://hedron-backend-dev.herokuapp.com/graphql",
+      "REST_ENDPOINT": "https://hedron-backend-dev.herokuapp.com/api/v1"
     }
   }
 }

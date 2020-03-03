@@ -3,7 +3,6 @@ import { NextPage } from "next";
 import withDefaultLayout from "../layouts/DefaultLayout";
 
 const Index: NextPage<{}> = (props) => {
-  console.log(props);
   return (
     <div className="card">
       <div className="card-content">

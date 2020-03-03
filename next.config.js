@@ -12,6 +12,7 @@ module.exports = (phase, { defaultConfig }) => {
       REDIRECT_URI: process.env.REDIRECT_URI,
       POST_LOGOUT_REDIRECT_URI: process.env.POST_LOGOUT_REDIRECT_URI,
       SESSION_COOKIE_SECRET: process.env.SESSION_COOKIE_SECRET,
+      GRAPHQL_ENDPOINT: process.env.GRAPHQL_ENDPOINT,
     }
   }
 }
