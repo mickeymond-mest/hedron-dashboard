@@ -9,7 +9,11 @@ const Header = () => (
 
     <div className="navbar-menu">
       <div className="navbar-start">
-        <div className="navbar-item field">
+        
+      </div>
+
+      <div className="navbar-end">
+        <div className="navbar-item">
           <div className="control has-icons-left has-icons-right">
             <input className="input hedron-navbar-search" type="text" placeholder="What do you want to find today?" />
             <span className="icon is-small is-left">
@@ -17,9 +21,6 @@ const Header = () => (
             </span>
           </div>
         </div>
-      </div>
-
-      <div className="navbar-end">
         <div className="navbar-item">
           <div className="buttons">
             <a href="/api/logout" className="button is-danger">

@@ -1,6 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache, from, ApolloLink } from '@apollo/client';
 import { setContext } from '@apollo/link-context';
-// import { createUploadLink } from 'apollo-upload-client';
 
 const authLink = setContext(async (_, { headers }) => {
   // get the authentication token from local storage if it exists
@@ -15,14 +14,11 @@ const authLink = setContext(async (_, { headers }) => {
   }
 });
 
-// const uploadLink = createUploadLink({ uri: process.env.GRAPHQL_ENDPOINT });
-
 export default () => {
   return new ApolloClient({
     cache: new InMemoryCache(),
     link: from([
       authLink,
-      // (uploadLink as unknown as ApolloLink),
       new HttpLink({ uri: process.env.GRAPHQL_ENDPOINT })
     ]),
     ssrMode: true,

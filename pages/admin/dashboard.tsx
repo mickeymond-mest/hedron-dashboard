@@ -1,10 +1,10 @@
 import { NextPage } from "next";
 
-import withDefaultLayout from "../layouts/DefaultLayout";
+import withDefaultLayout from "../../layouts/DefaultLayout";
 
 const Dashboard: NextPage<{}> = ({}) => {
   return (
-    <p>Dashboard Page Next.js</p>
+    <h1 className="title">Dashboard</h1>
   );
 }
 

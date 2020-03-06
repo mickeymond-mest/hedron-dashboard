@@ -1,13 +1,24 @@
 // We can import bulma into the project using Sass.
 @import "../node_modules/bulma/bulma.sass";
+@import "../node_modules/bulma-extensions/bulma-pageloader/src/sass/index.sass";
 
 body {
   background-color: #F0F0F7;
 }
 
+.trimmed-content {
+  height: 100px;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.material-icons {
+  cursor: pointer;
+}
+
 .hedron-layout {
   margin: 0 !important;
-  min-height: 100vh;
 }
 
 .hedron-main {
@@ -16,10 +27,6 @@ body {
   position: absolute;
   right: 0;
   width: 80%;
-}
-
-.hedron-content {
-  margin-top: 70px;
 }
 
 .hedron-navbar {

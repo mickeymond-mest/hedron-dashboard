@@ -11,17 +11,7 @@ import apolloClient from '../utils/apolloClient';
 
 import Header from '../components/Header';
 import '../styles/styles.scss';
-
-const NAV_ITEMS = [
-  { label: "Home", icon: "home", link: "/index", as: "/" },
-  { label: "Dashboard", icon: "dashboard", link: "/dashboard", as: "/dashboard" },
-  { label: "Inbox", icon: "inbox", link: "/inbox", as: "/inbox" },
-  { label: "Products", icon: "verified_user", link: "/products", as: "/products" },
-  { label: "My Leads", icon: "perm_identity", link: "/leads", as: "/leads" },
-  { label: "Chat Room", icon: "chat", link: "/chat", as: "/chat" },
-  { label: "Help Center", icon: "help", link: "/help", as: "/help" },
-  { label: "Settings", icon: "settings", link: "/settings", as: "/settings" },
-];
+import { links } from '../utils/data';
 
 type LayoutProps = {
   user: object | null;
@@ -62,12 +52,13 @@ const DefaultLayout = (WrappedComponent: NextPage) => {
     }
 
     render () {
+      const NAV_ITEMS = links[this.props.user['https://deegify.dev/roles'][0]] || [];
       return (
         <ApolloProvider client={client}>
           <div className="columns is-gapless hedron-layout">
             <div className="column is-2 hedron-sidebar">
               <div className="has-text-white hedron-logo">
-                <span>HEDRONIZE</span>
+                <span>HEDRON</span>
               </div>
               {NAV_ITEMS.map(item => (
                 <Link key={item.link} href={item.link} as={item.as}>
@@ -85,16 +76,15 @@ const DefaultLayout = (WrappedComponent: NextPage) => {
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
               </Head>
               <Header />
-              <div className="hedron-content">
-                <WrappedComponent {...this.props} />
-                <footer className="footer">
-                  <div className="content has-text-centered">
-                    <p>
-                      <strong>Bulma</strong> by <a href="https://jgthms.com">Jeremy Thomas</a>. The source code is licensed<a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website contentis licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+              <WrappedComponent {...this.props} />
+              <br /><br />
+              <footer className="footer">
+                <div className="content has-text-centered">
+                  <p>
+                    <strong>Bulma</strong> by <a href="https://jgthms.com">Jeremy Thomas</a>. The source code is licensed<a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website contentis licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
                   </p>
-                  </div>
-                </footer>
-              </div>
+                </div>
+              </footer>
             </div>
           </div>
         </ApolloProvider>
