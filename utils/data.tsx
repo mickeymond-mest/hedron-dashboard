@@ -27,23 +27,108 @@ export const categories = [
 
 export const links = {
   vendor: [
-    { label: "Home", icon: "home", link: "/index", as: "/" },
-    { label: "Dashboard", icon: "dashboard", link: "/vendors/dashboard", as: "/vendors/dashboard" },
-    { label: "Inbox", icon: "inbox", link: "/vendors/inbox", as: "/vendors/inbox" },
-    { label: "Products", icon: "verified_user", link: "/vendors/products", as: "/vendors/products" },
-    { label: "My Leads", icon: "perm_identity", link: "/vendors/leads", as: "/vendors/leads" },
-    { label: "Chat Room", icon: "chat", link: "/vendors/chat", as: "/vendors/chat" },
-    { label: "Help Center", icon: "help", link: "/vendors/help", as: "/vendors/help" },
-    { label: "Settings", icon: "settings", link: "/vendors/settings", as: "/vendors/settings" },
+    {
+      label: "Home",
+      icon: "home",
+      link: "/index",
+      as: "/",
+      subs: []
+    },
+    {
+      label: "Dashboard",
+      icon: "dashboard",
+      link: "/vendors/dashboard",
+      as: "/vendors/dashboard",
+      subs: []
+    },
+    {
+      label: "Inbox",
+      icon: "inbox",
+      link: "/vendors/inbox",
+      as: "/vendors/inbox",
+      subs: []
+    },
+    {
+      label: "Products",
+      icon: "verified_user",
+      link: "/vendors/products",
+      as: "/vendors/products",
+      subs: [
+        {
+          label: "Add Product",
+          icon: "add",
+          link: "/vendors/products/create",
+          as: "/vendors/products/create"
+        },
+      ]
+    },
+    {
+      label: "My Leads",
+      icon: "perm_identity",
+      link: "/vendors/leads",
+      as: "/vendors/leads",
+      subs: []
+    },
+    {
+      label: "Chat Room",
+      icon: "chat",
+      link: "/vendors/chat",
+      as: "/vendors/chat",
+      subs: []
+    },
+    {
+      label: "Help Center",
+      icon: "help",
+      link: "/vendors/help",
+      as: "/vendors/help",
+      subs: []
+    },
+    {
+      label: "Settings",
+      icon: "settings",
+      link: "/vendors/settings",
+      as: "/vendors/settings",
+      subs: []
+    },
   ],
   admin: [
-    { label: "Home", icon: "home", link: "/index", as: "/" },
-    { label: "Dashboard", icon: "dashboard", link: "/admin/dashboard", as: "/admin/dashboard" },
+    {
+      label: "Home",
+      icon: "home",
+      link: "/index",
+      as: "/",
+      subs: []
+    },
+    {
+      label: "Dashboard",
+      icon: "dashboard",
+      link: "/admin/dashboard",
+      as: "/admin/dashboard",
+      subs: []
+    },
     // { label: "Inbox", icon: "inbox", link: "/inbox", as: "/inbox" },
-    { label: "Products", icon: "verified_user", link: "/admin/products", as: "/admin/products" },
-    { label: "Vendors", icon: "perm_identity", link: "/admin/vendors", as: "/admin/vendors" },
+    {
+      label: "Products",
+      icon: "verified_user",
+      link: "/admin/products",
+      as: "/admin/products",
+      subs: []
+    },
+    {
+      label: "Vendors",
+      icon: "perm_identity",
+      link: "/admin/vendors",
+      as: "/admin/vendors",
+      subs: []
+    },
     // { label: "Chat Room", icon: "chat", link: "/admin/chat", as: "/admin/chat" },
     // { label: "Help Center", icon: "help", link: "/admin/help", as: "/admin/help" },
-    { label: "Settings", icon: "settings", link: "/admin/settings", as: "/admin/settings" },
+    {
+      label: "Settings",
+      icon: "settings",
+      link: "/admin/settings",
+      as: "/admin/settings",
+      subs: []
+    },
   ],
 }

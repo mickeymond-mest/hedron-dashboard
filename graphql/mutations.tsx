@@ -30,7 +30,40 @@ export const ADD_PRODUCT = gql`
       }
     ) {
       _id
-      userId
+    }
+  }
+`;
+
+export const ARCHIVE_PRODUCT = gql`
+  mutation ArchiveProduct(
+    $productId: String!
+  ) {
+    archiveProduct(productId: $productId) {
+      _id
+    }
+  }
+`;
+
+export const RESTORE_PRODUCT = gql`
+  mutation RestoreProduct(
+    $productId: String!
+  ) {
+    restoreProduct(productId: $productId) {
+      _id
+    }
+  }
+`;
+
+export const UPDATE_STATUS = gql`
+  mutation UpdateStatus(
+    $status: String!
+    $productId: String!
+  ) {
+    updateStatus(
+      status: $status,
+      productId: $productId
+    ) {
+      _id
     }
   }
 `;

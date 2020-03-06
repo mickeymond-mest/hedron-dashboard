@@ -15,8 +15,9 @@ import { NextPageProps } from '../../../utils/PropTypes';
 import * as data from '../../../utils/data';
 import axios from 'axios';
 import { ProductInput, ProductType } from "../../../utils/interfaces";
+import { GET_PRODUCTS } from "../../../graphql/queries";
 
-const ProductsCreate: NextPage<NextPageProps> = (props) => {
+const ProductsCreate: NextPage<NextPageProps> = ({ user }) => {
   const [loading, setLoading] = useState(false);
 
   const [name, setName] = useState('');
@@ -302,10 +303,13 @@ const ProductsCreate: NextPage<NextPageProps> = (props) => {
                     logo: data.logo,
                     featured: data.featured,
                     attachments: data.attachments,
-                  }
+                  },
+                  refetchQueries: [
+                    { query: GET_PRODUCTS, variables: { userId: user.sub } }
+                  ]
                 })
                   .then(res => {
-                    Router.push('/vendors/products');
+                    Router.replace('/vendors/products');
                   })
                   .catch(console.log);
               })

@@ -61,19 +61,32 @@ const DefaultLayout = (WrappedComponent: NextPage) => {
                 <span>HEDRON</span>
               </div>
               {NAV_ITEMS.map(item => (
-                <Link key={item.link} href={item.link} as={item.as}>
-                  <a title={item.label}>
-                    <div className="has-text-white hedron-sidebar-menu">
-                      <i className="material-icons">{item.icon}</i>
-                      <span>{item.label}</span>
-                    </div>
-                  </a>
-                </Link>
+                <div key={item.link} className="leadron-menu-container">
+                  <Link href={item.link} as={item.as}>
+                    <a title={item.label}>
+                      <div className="has-text-white hedron-sidebar-menu">
+                        <i className="material-icons">{item.icon}</i>
+                        <span>{item.label}</span>
+                      </div>
+                    </a>
+                  </Link>
+                  {item.subs.map(sub => (
+                    <Link key={sub.link} href={sub.link} as={sub.link}>
+                      <a title={sub.title}>
+                        <div className="has-text-white hedron-sidebar-menu hedron-sidebar-menu-sub">
+                          <i className="material-icons">{sub.icon}</i>
+                          <span>{sub.label}</span>
+                        </div>
+                      </a>
+                    </Link>
+                  ))}
+                </div>
               ))}
             </div>
             <div className="hedron-main column">
               <Head>
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"/>
               </Head>
               <Header />
               <WrappedComponent {...this.props} />

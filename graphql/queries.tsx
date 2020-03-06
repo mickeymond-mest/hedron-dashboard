@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
-export const GET_PRODUCTS_BY_USER_ID = gql`
+export const GET_PRODUCTS = gql`
   query Products(
-    $userId: String!
+    $userId: String
     $status: String
     $archived: Boolean
   ) {

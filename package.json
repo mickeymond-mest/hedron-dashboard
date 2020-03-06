@@ -25,13 +25,15 @@
     "node-sass": "^4.13.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
-    "react-select": "^3.0.8"
+    "react-select": "^3.0.8",
+    "toastr": "^2.1.4"
   },
   "devDependencies": {
     "@types/node": "^13.7.6",
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
     "@types/react-select": "^3.0.10",
+    "@types/toastr": "^2.1.37",
     "dotenv": "^8.2.0",
     "typescript": "^3.8.2"
   }

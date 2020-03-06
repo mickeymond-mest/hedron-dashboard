@@ -1,3 +1,11 @@
+// Personal Interfaces
+export interface UpdateStatusInput {
+  status: string;
+  productId: string;
+}
+
+
+
 
 /** ------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)

@@ -6,6 +6,20 @@ body {
   background-color: #F0F0F7;
 }
 
+.hedron-products-filter-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.status {
+  font-weight: bold;
+}
+
+.hedron-dropdown {
+  width: 100%;
+}
+
 .trimmed-content {
   height: 100px;
   white-space: normal;
@@ -56,19 +70,29 @@ body {
   padding-left: 1rem;
 }
 
+.hedron-sidebar-menu-sub {
+  background-color: #9290E1;
+  margin-left: 40px;
+  display: none;
+}
+
 .hedron-sidebar-menu:hover {
   background-color: #3C3B53;
-  border-left: 5px solid #9290E1;
+  border-right: 5px solid #9290E1;
 }
 
 .hedron-sidebar-menu:hover i {
   color: #9290E1;
 }
 
+.leadron-menu-container:hover .hedron-sidebar-menu-sub {
+  display: flex;
+}
+
 .hedron-sidebar-menu-selected {
   background-color: #3C3B53;
   cursor: pointer;
-  border-left: 5px solid #9290E1;
+  border-right: 5px solid #9290E1;
 }
 
 .hedron-sidebar-menu-selected i {
