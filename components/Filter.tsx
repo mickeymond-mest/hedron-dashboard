@@ -1,6 +1,7 @@
+import { NextComponentType } from "next";
 
 
-const ProductsFilterComponent = () => {
+const Filter: NextComponentType = () => {
   return (
     <div className="card">
       <div className="card-content hedron-products-filter-bar">
@@ -39,4 +40,4 @@ const ProductsFilterComponent = () => {
   );
 }
 
-export default ProductsFilterComponent;
+export default Filter;

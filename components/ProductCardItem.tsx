@@ -1,6 +1,6 @@
-import { FunctionComponent } from "react";
 import { ProductType } from "../utils/interfaces";
 import Link from "next/link";
+import { NextComponentType } from "next";
 
 type ProductCardItemProps = {
   hasVendorActions: boolean;
@@ -12,13 +12,13 @@ type ProductCardItemProps = {
 
 
 
-const ProductCardItem: FunctionComponent<ProductCardItemProps> = (
+const ProductCardItem: NextComponentType<any, any, ProductCardItemProps> = (
   { product, onArchive, onRestore, hasVendorActions, onStatusChange }
 ) => {
   const getSelectClasses = () => {
     switch (product.status) {
       case 'pending':
-        return "status has-text-info";
+        return "status has-text-warning";
       case 'approved':
         return "status has-text-success";
       case 'denied':
@@ -34,19 +34,19 @@ const ProductCardItem: FunctionComponent<ProductCardItemProps> = (
         case 'pending':
           return (
             <button
-              className="button has-text-white has-background-info is-small is-rounded"
+              className="status button has-text-white has-background-warning is-small is-rounded"
             >PENDING</button>
           );
         case 'approved':
           return (
             <button
-              className="button has-text-white has-background-success is-small is-rounded"
+              className="status button has-text-white has-background-success is-small is-rounded"
             >APPROVED</button>
           );
         case 'denied':
           return (
             <button
-              className="button has-text-white has-background-danger is-small is-rounded"
+              className="status button has-text-white has-background-danger is-small is-rounded"
             >DENIED</button>
           );
         default:
@@ -104,7 +104,7 @@ const ProductCardItem: FunctionComponent<ProductCardItemProps> = (
                     onStatusChange(product._id, e.target.value);
                   }}
                 >
-                  <option className="has-text-info" value="pending">PENDING</option>
+                  <option className="has-text-warning" value="pending">PENDING</option>
                   <option className="has-text-success" value="approved">APPROVED</option>
                   <option className="has-text-danger" value="denied">DENIED</option>
                 </select>

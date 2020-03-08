@@ -10,12 +10,12 @@ import { NextPageProps } from '../../../utils/PropTypes';
 import { ProductType, ProductFilter } from "../../../utils/interfaces";
 
 import ProductCardItem from '../../../components/ProductCardItem';
-import ProductsFilterComponent from "../../../components/ProductsFilter";
+import Filter from "../../../components/Filter";
 
 const ProductsIndex: NextPage<NextPageProps> = ({ user }) => {
   const { loading, error, data } = useQuery<{ products: ProductType[] }, ProductFilter>(
     GET_PRODUCTS,
-    { variables: { userId: user.sub } }
+    { variables: { userId: user.sub }, pollInterval: 1000 }
   );
 
   const [archiveProduct] = useMutation<{ product: ProductType }, { productId: string }>(ARCHIVE_PRODUCT);
@@ -41,7 +41,7 @@ const ProductsIndex: NextPage<NextPageProps> = ({ user }) => {
     <section className="section">
       <section className="section">
         <h1 className="title">Products</h1>
-        <ProductsFilterComponent />
+        <Filter />
       </section>
       <section className="section">
         <div className="columns is-multiline">

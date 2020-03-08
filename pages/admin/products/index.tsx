@@ -12,7 +12,7 @@ import { NextPageProps } from '../../../utils/PropTypes';
 import { ProductType, ProductFilter, UpdateStatusInput } from "../../../utils/interfaces";
 
 import ProductCardItem from '../../../components/ProductCardItem';
-import ProductsFilterComponent from "../../../components/ProductsFilter";
+import Filter from "../../../components/Filter";
 
 const ProductsIndex: NextPage<NextPageProps> = ({ user }) => {
   const { loading, error, data } = useQuery<{ products: ProductType[] }, ProductFilter>(GET_PRODUCTS);
@@ -39,7 +39,7 @@ const ProductsIndex: NextPage<NextPageProps> = ({ user }) => {
     <section className="section">
       <section className="section">
         <h1 className="title is-4">Products</h1>
-        <ProductsFilterComponent />
+        <Filter />
       </section>
       <section className="section">
         <div className="columns is-multiline">

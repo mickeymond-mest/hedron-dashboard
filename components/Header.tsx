@@ -1,10 +1,6 @@
-import Link from 'next/link';
+import { NextComponentType } from "next";
 
-const linkStyle = {
-  marginRight: 15
-};
-
-const Header = () => (
+const Header: NextComponentType = () => (
   <nav className="navbar hedron-navbar" role="navigation" aria-label="main navigation">
 
     <div className="navbar-menu">

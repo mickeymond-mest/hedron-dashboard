@@ -1,11 +1,12 @@
-import { useState, FunctionComponent } from "react";
+import { useState } from "react";
+import { NextComponentType } from "next";
 
 type ProductPlanProps = {
   onChange: Function;
   isDisabled?: boolean;
 }
 
-const ProductPlan: FunctionComponent<ProductPlanProps> = (props) => {
+const ProductPlan: NextComponentType<any, any, ProductPlanProps> = (props) => {
   const [plans, setPlans] =  useState([]);
   const [name, setName] =  useState('');
   const [price, setPrice] =  useState('');
