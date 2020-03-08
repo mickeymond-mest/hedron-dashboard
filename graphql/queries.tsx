@@ -74,3 +74,55 @@ export const GET_PRODUCTS = gql`
     }
   }
 `;
+
+export const GET_PRODUCT = gql`
+  query Product(
+    $productId: String!
+  ) {
+    product(
+      productId: $productId
+    ) {
+      _id
+      userId
+      ibmDiscoveryDocumentId
+      status
+      archived
+      name
+      description
+      values {
+        label
+        value
+      }
+      features {
+        label
+        value
+      }
+      pricing {
+        label
+        value
+      }
+      devices {
+        label
+        value
+      }
+      categories {
+        label
+        value
+      }
+      plans {
+        name
+        name
+        description
+      }
+      logo {
+        url
+      }
+      featured {
+        url
+      }
+      attachments {
+        url
+      }
+    }
+  }
+`;

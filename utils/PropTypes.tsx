@@ -1,3 +1,5 @@
+import { WithRouterProps } from "next/dist/client/with-router"
+
 // Prop Types File
 
 type User = {
@@ -5,6 +7,6 @@ type User = {
   sub: string;
 }
 
-export type NextPageProps = {
+export interface NextPageProps extends WithRouterProps {
   user: User;
 }

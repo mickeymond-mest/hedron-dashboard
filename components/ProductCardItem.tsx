@@ -15,6 +15,18 @@ type ProductCardItemProps = {
 const ProductCardItem: FunctionComponent<ProductCardItemProps> = (
   { product, onArchive, onRestore, hasVendorActions, onStatusChange }
 ) => {
+  const getSelectClasses = () => {
+    switch (product.status) {
+      case 'pending':
+        return "status has-text-info";
+      case 'approved':
+        return "status has-text-success";
+      case 'denied':
+        return "status has-text-danger";
+      default:
+        return 'status';
+    }
+  }
 
   const renderStatus = () => {
     if (hasVendorActions) {
@@ -78,7 +90,7 @@ const ProductCardItem: FunctionComponent<ProductCardItemProps> = (
                   }}
                 >Archive</a>
             }
-            <Link href={`/products/edit?_id=${product._id}`}>
+            <Link href={`/vendors/products/edit?_id=${product._id}`}>
               <a className="card-footer-item has-text-info">Edit</a>
             </Link>
           </footer> :
@@ -86,7 +98,7 @@ const ProductCardItem: FunctionComponent<ProductCardItemProps> = (
             <div className="card-footer-item">
               <div className="select is-fullwidth is-rounded">
                 <select
-                  className="status"
+                  className={getSelectClasses()}
                   value={product.status}
                   onChange={e => {
                     onStatusChange(product._id, e.target.value);
