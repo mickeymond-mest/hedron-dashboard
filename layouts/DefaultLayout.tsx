@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Router from 'next/router';
 import fetch from 'isomorphic-unfetch';
-import { ApolloProvider } from '@apollo/client';
+import { ApolloProvider } from '@apollo/react-hooks';
 
 import auth0 from '../utils/auth0';
 import apolloClient from '../utils/apolloClient';

@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 
 import withDefaultLayout from "../../../layouts/DefaultLayout";
 
