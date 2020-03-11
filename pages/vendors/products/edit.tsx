@@ -4,7 +4,7 @@ import CreatableSelect from 'react-select/creatable';
 import { withRouter } from "next/router";
 
 import { useState, createRef } from "react";
-import { useMutation, useQuery } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/client";
 
 import { ADD_PRODUCT } from "../../../graphql/mutations";
 
@@ -15,7 +15,7 @@ import { NextPageProps } from '../../../utils/PropTypes';
 import * as data from '../../../utils/data';
 import axios from 'axios';
 import { ProductInput, ProductType } from "../../../utils/interfaces";
-import { GET_PRODUCTS, GET_PRODUCT } from "../../../graphql/queries";
+import { GET_PRODUCTS, GET_PRODUCT_BY_ID } from "../../../graphql/queries";
 
 const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
   const [loading, setLoading] = useState(false);
@@ -38,12 +38,14 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
   let featured = createRef();
   let attachments = createRef();
 
-  const { loading: fetching, error, data: response } = useQuery<{ product: ProductType }, { productId: string }>(
-    GET_PRODUCT,
+  const { loading: fetching, error, data: response } = useQuery<{ getProductById: ProductType }, { productId: string }>(
+    GET_PRODUCT_BY_ID,
     { variables: { productId: (router.query._id as string) } }
   );
 
   const [addProduct] = useMutation<{ addProduct: ProductType }, ProductInput>(ADD_PRODUCT);
+
+  console.log(error);
 
   if (fetching) {
     return (
@@ -77,7 +79,7 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
                   className="input"
                   type="text"
                   placeholder="Product Name"
-                  defaultValue={response.product.name}
+                  defaultValue={response.getProductById.name}
                   disabled={loading}
                   onChange={e => {
                     setName(e.target.value);
@@ -92,7 +94,7 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
                 <CreatableSelect
                   instanceId="values"
                   isMulti
-                  options={(response.product.values as any[])}
+                  options={(response.getProductById.values as any[])}
                   isDisabled={loading}
                   onChange={(value) => {
                     setValues(value);

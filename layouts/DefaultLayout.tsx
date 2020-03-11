@@ -4,10 +4,12 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Router from 'next/router';
 import fetch from 'isomorphic-unfetch';
-import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider } from '@apollo/client';
 
 import auth0 from '../utils/auth0';
 import apolloClient from '../utils/apolloClient';
+
+import Drawer from 'rc-drawer';
 
 import Header from '../components/Header';
 import '../styles/styles.scss';
@@ -22,6 +24,14 @@ const client = apolloClient();
 
 const DefaultLayout = (WrappedComponent: NextPage) => {
   return class extends Component<LayoutProps> {
+
+    state = {
+      isDrawerOpen: false
+    }
+
+    toggleDrawer = () => {
+      this.setState({ isDrawerOpen: !this.state.isDrawerOpen });
+    }
 
     static async getInitialProps(ctx: NextPageContext) {
       const componentProps =
@@ -55,15 +65,26 @@ const DefaultLayout = (WrappedComponent: NextPage) => {
       const NAV_ITEMS = links[this.props.user['https://deegify.dev/roles'][0]] || [];
       return (
         <ApolloProvider client={client}>
-          <div className="columns is-gapless hedron-layout">
-            <div className="column is-2 hedron-sidebar">
+          <Drawer
+            open={this.state.isDrawerOpen}
+            width="250px"
+            handler={false}
+          >
+            <div
+              style={this.state.isDrawerOpen ? { display: 'block' } : { display: 'none' }}
+              className="hedron-sidebar">
               <div className="has-text-white hedron-logo">
                 <span>HEDRON</span>
               </div>
               {NAV_ITEMS.map(item => (
                 <div key={item.link} className="leadron-menu-container">
                   <Link href={item.link} as={item.as}>
-                    <a title={item.label}>
+                    <a
+                      title={item.label}
+                      onClick={e => {
+                        this.toggleDrawer();
+                      }}
+                    >
                       <div className="has-text-white hedron-sidebar-menu">
                         <i className="material-icons">{item.icon}</i>
                         <span>{item.label}</span>
@@ -72,7 +93,12 @@ const DefaultLayout = (WrappedComponent: NextPage) => {
                   </Link>
                   {item.subs.map(sub => (
                     <Link key={sub.link} href={sub.link} as={sub.link}>
-                      <a title={sub.title}>
+                      <a
+                        title={sub.title}
+                        onClick={e => {
+                          this.toggleDrawer();
+                        }}
+                      >
                         <div className="has-text-white hedron-sidebar-menu hedron-sidebar-menu-sub">
                           <i className="material-icons">{sub.icon}</i>
                           <span>{sub.label}</span>
@@ -83,12 +109,23 @@ const DefaultLayout = (WrappedComponent: NextPage) => {
                 </div>
               ))}
             </div>
+          </Drawer>
+          <div
+            className="columns is-gapless hedron-layout"
+            onClick={e => {
+              // this.toggleDrawer();
+            }}
+          >
             <div className="hedron-main column">
               <Head>
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"/>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
               </Head>
-              <Header />
+              <Header
+                toggleDrawer={() => {
+                  this.toggleDrawer();
+                }}
+              />
               <WrappedComponent {...this.props} />
               <br /><br />
               <footer className="footer">

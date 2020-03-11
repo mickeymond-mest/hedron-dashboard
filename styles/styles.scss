@@ -33,21 +33,20 @@ body {
 
 .hedron-layout {
   margin: 0 !important;
+  min-height: 100vh;
 }
 
 .hedron-main {
   padding: 0 !important;
   margin: 0 !important;
-  position: absolute;
-  right: 0;
-  width: 80%;
+  width: 100%;
 }
 
 .hedron-navbar {
   height: 70px;
   position: fixed;
   right: 0;
-  width: 80%;
+  width: 100%;
 }
 
 .hedron-navbar-search {
@@ -57,10 +56,13 @@ body {
 .hedron-sidebar {
   background-color: #43425D;
   padding: 0 !important;
-  width: 20% !important;
-  height: 100%;
   position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
   overflow: scroll;
+  height: 100vh;
+  display: none;
 }
 
 .hedron-sidebar-menu {

@@ -8,12 +8,13 @@ const Index: NextPage<{}> = (props) => {
       <section className="section">
         <div className="card">
           <div className="card-content">
-            <p className="title">
-              Welcome To Hedron
-            </p>
+            <p className="title">Welcome To Hedron</p>
+            <br/>
             <p className="subtitle">
-              We Will Get Back To You Shortly
-          </p>
+              <a href="https://hedron.now.sh">
+                Go Find the Prodcut You Want
+              </a>
+            </p>
           </div>
         </div>
       </section>

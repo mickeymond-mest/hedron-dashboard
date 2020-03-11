@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/client";
 
 import withDefaultLayout from "../../../layouts/DefaultLayout";
 
@@ -10,12 +10,12 @@ import { NextPageProps } from '../../../utils/PropTypes';
 import { ProductType, ProductFilter } from "../../../utils/interfaces";
 
 import ProductCardItem from '../../../components/ProductCardItem';
-import Filter from "../../../components/Filter";
+// import Filter from "../../../components/Filter";
 
 const ProductsIndex: NextPage<NextPageProps> = ({ user }) => {
-  const { loading, error, data } = useQuery<{ products: ProductType[] }, ProductFilter>(
+  const { loading, error, data, refetch } = useQuery<{ products: ProductType[] }, ProductFilter>(
     GET_PRODUCTS,
-    { variables: { userId: user.sub }, pollInterval: 1000 }
+    { variables: { userId: user.sub }, pollInterval: 5000 }
   );
 
   const [archiveProduct] = useMutation<{ product: ProductType }, { productId: string }>(ARCHIVE_PRODUCT);
@@ -41,7 +41,6 @@ const ProductsIndex: NextPage<NextPageProps> = ({ user }) => {
     <section className="section">
       <section className="section">
         <h1 className="title">Products</h1>
-        <Filter />
       </section>
       <section className="section">
         <div className="columns is-multiline">

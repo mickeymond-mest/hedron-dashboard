@@ -1,11 +1,24 @@
 import { NextComponentType } from "next";
 
-const Header: NextComponentType = () => (
+type HeaderProps = {
+  toggleDrawer: Function
+}
+
+const Header: NextComponentType<any, any, HeaderProps> = ({ toggleDrawer }) => (
   <nav className="navbar hedron-navbar" role="navigation" aria-label="main navigation">
+    <div className="navbar-brand">
+      <div
+        className="navbar-item"
+        onClick={e => {
+          toggleDrawer();
+        }}
+      >
+        <i className="material-icons" style={{ fontSize: '2rem' }}>menu</i>
+      </div>
+    </div>
 
     <div className="navbar-menu">
       <div className="navbar-start">
-        
       </div>
 
       <div className="navbar-end">

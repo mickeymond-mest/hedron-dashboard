@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost';
+import { gql } from '@apollo/client';
 
 export const GET_PRODUCTS = gql`
   query Products(
@@ -75,11 +75,11 @@ export const GET_PRODUCTS = gql`
   }
 `;
 
-export const GET_PRODUCT = gql`
-  query Product(
+export const GET_PRODUCT_BY_ID = gql`
+  query GetProductById(
     $productId: String!
   ) {
-    product(
+    getProductById(
       productId: $productId
     ) {
       _id

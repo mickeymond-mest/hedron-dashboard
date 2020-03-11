@@ -4,7 +4,7 @@ import CreatableSelect from 'react-select/creatable';
 import Router from "next/router";
 
 import { useState, createRef } from "react";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/client";
 
 import { ADD_PRODUCT } from "../../../graphql/mutations";
 
