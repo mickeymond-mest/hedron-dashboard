@@ -22,8 +22,8 @@ export const GET_PRODUCTS = gql`
       description
       values {
         _id
-        label
-        value
+        name
+        description
       }
       features {
         _id
@@ -90,8 +90,8 @@ export const GET_PRODUCT_BY_ID = gql`
       name
       description
       values {
-        label
-        value
+        name
+        description
       }
       features {
         label

@@ -6,16 +6,23 @@ import { withRouter } from "next/router";
 import { useState, createRef } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 
-import { ADD_PRODUCT } from "../../../graphql/mutations";
+import { ADD_PRODUCT } from "../../../../graphql/mutations";
 
-import withDefaultLayout from "../../../layouts/DefaultLayout";
-import ProductPlan from "../../../components/ProductPlan";
+import withDefaultLayout from "../../../../layouts/DefaultLayout";
+import ProductPlan from "../../../../components/ProductPlan";
 
-import { NextPageProps } from '../../../utils/PropTypes';
-import * as data from '../../../utils/data';
+import { NextPageProps } from '../../../../utils/PropTypes';
+import * as data from '../../../../utils/data';
 import axios from 'axios';
-import { ProductInput, ProductType } from "../../../utils/interfaces";
-import { GET_PRODUCTS, GET_PRODUCT_BY_ID } from "../../../graphql/queries";
+import { ProductInput, ProductType } from "../../../../utils/interfaces";
+import { GET_PRODUCTS, GET_PRODUCT_BY_ID } from "../../../../graphql/queries";
+import ValueProp from "../../../../components/ValueProp";
+import dynamic from "next/dynamic";
+
+const DynamicComponentWithNoSSR = dynamic(
+  () => import('../../../../components/RichText'),
+  { ssr: false }
+)
 
 const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
   const [loading, setLoading] = useState(false);
@@ -45,8 +52,6 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
 
   const [addProduct] = useMutation<{ addProduct: ProductType }, ProductInput>(ADD_PRODUCT);
 
-  console.log(error);
-
   if (fetching) {
     return (
       <div className="pageloader is-active is-bottom-to-top">
@@ -70,8 +75,9 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
       </section>
 
       <section className="section">
-        <div className="columns">
-          <div className="column">
+        
+      <div className="columns">
+          <div className="column is-one-third">
             <div className="field">
               <label className="label">Product Name</label>
               <div className="control">
@@ -79,25 +85,10 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
                   className="input"
                   type="text"
                   placeholder="Product Name"
-                  defaultValue={response.getProductById.name}
                   disabled={loading}
+                  defaultValue={response.getProductById.name}
                   onChange={e => {
                     setName(e.target.value);
-                  }}
-                />
-              </div>
-            </div><br />
-
-            <div className="field">
-              <label className="label">Value Proposition</label>
-              <div className="control">
-                <CreatableSelect
-                  instanceId="values"
-                  isMulti
-                  options={(response.getProductById.values as any[])}
-                  isDisabled={loading}
-                  onChange={(value) => {
-                    setValues(value);
                   }}
                 />
               </div>
@@ -110,6 +101,7 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
                   instanceId="features"
                   isMulti
                   options={[]}
+                  defaultValue={(response.getProductById.features as any[])}
                   isDisabled={loading}
                   onChange={(value) => {
                     setFeatures(value);
@@ -125,6 +117,7 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
                   instanceId="pricing"
                   isMulti
                   options={data.pricing}
+                  defaultValue={response.getProductById.pricing}
                   isDisabled={loading}
                   onChange={(value: any[]) => {
                     setPricing(value);
@@ -161,30 +154,12 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
                   }}
                 />
               </div>
-            </div>
-
-          </div>
-
-          <div className="column">
-            <div className="field">
-              <label className="label">Product Description</label>
-              <div className="control">
-                <textarea
-                  rows={6}
-                  className="textarea"
-                  placeholder="Product Description Goes Here..."
-                  disabled={loading}
-                  onChange={(e) => {
-                    setDescription(e.target.value);
-                  }}
-                ></textarea>
-              </div>
-            </div><br />
+            </div><br/>
 
             <div className="field">
               <label className="label">Product Logo</label>
               <div className="control">
-                <div className="file has-name">
+                <div className="file is-fullwidth has-name">
                   <label className="file-label">
                     <input
                       className="file-input"
@@ -216,7 +191,7 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
             <div className="field">
               <label className="label">Product Featured Image</label>
               <div className="control">
-                <div className="file has-name">
+                <div className="file is-fullwidth has-name">
                   <label className="file-label">
                     <input
                       className="file-input"
@@ -248,7 +223,7 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
             <div className="field">
               <label className="label">Attachments</label>
               <div className="control">
-                <div className="file is-boxed">
+                <div className="file is-centered is-boxed">
                   <label className="file-label">
                     <input
                       className="file-input"
@@ -278,16 +253,33 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
             </div>
 
           </div>
-        </div>
 
-        <div className="columns">
           <div className="column">
+            <div className="field">
+              <label className="label">Product Description</label>
+              <div className="control">
+                <DynamicComponentWithNoSSR
+                  onContentChange={(value) => {
+                    setDescription(value);
+                  }}
+                />
+              </div>
+            </div><br />
+
+            <ValueProp
+              isDisabled={loading}
+              onChange={(value: any[]) => {
+                setValues(value);
+              }}
+            /><br />
+
             <ProductPlan
               isDisabled={loading}
               onChange={(value: any[]) => {
                 setPlans(value);
               }}
             />
+
           </div>
         </div>
 

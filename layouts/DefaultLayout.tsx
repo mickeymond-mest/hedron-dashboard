@@ -12,8 +12,9 @@ import apolloClient from '../utils/apolloClient';
 import Drawer from 'rc-drawer';
 
 import Header from '../components/Header';
-import '../styles/styles.scss';
 import { links } from '../utils/data';
+
+import '../styles/styles.scss';
 
 type LayoutProps = {
   user: object | null;
@@ -120,6 +121,7 @@ const DefaultLayout = (WrappedComponent: NextPage) => {
               <Head>
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+                <link href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet"></link>
               </Head>
               <Header
                 toggleDrawer={() => {

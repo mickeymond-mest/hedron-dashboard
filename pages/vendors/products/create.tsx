@@ -2,6 +2,8 @@ import { NextPage } from "next";
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import Router from "next/router";
+import dynamic from 'next/dynamic';
+import toastr from 'toastr';
 
 import { useState, createRef } from "react";
 import { useMutation } from "@apollo/client";
@@ -16,6 +18,12 @@ import * as data from '../../../utils/data';
 import axios from 'axios';
 import { ProductInput, ProductType } from "../../../utils/interfaces";
 import { GET_PRODUCTS } from "../../../graphql/queries";
+import ValueProp from "../../../components/ValueProp";
+
+const DynamicComponentWithNoSSR = dynamic(
+  () => import('../../../components/RichText'),
+  { ssr: false }
+)
 
 const ProductsCreate: NextPage<NextPageProps> = ({ user }) => {
   const [loading, setLoading] = useState(false);
@@ -48,7 +56,7 @@ const ProductsCreate: NextPage<NextPageProps> = ({ user }) => {
 
       <section className="section">
         <div className="columns">
-          <div className="column">
+          <div className="column is-one-third">
             <div className="field">
               <label className="label">Product Name</label>
               <div className="control">
@@ -59,21 +67,6 @@ const ProductsCreate: NextPage<NextPageProps> = ({ user }) => {
                   disabled={loading}
                   onChange={e => {
                     setName(e.target.value);
-                  }}
-                />
-              </div>
-            </div><br />
-
-            <div className="field">
-              <label className="label">Value Proposition</label>
-              <div className="control">
-                <CreatableSelect
-                  instanceId="values"
-                  isMulti
-                  options={[]}
-                  isDisabled={loading}
-                  onChange={(value) => {
-                    setValues(value);
                   }}
                 />
               </div>
@@ -137,30 +130,12 @@ const ProductsCreate: NextPage<NextPageProps> = ({ user }) => {
                   }}
                 />
               </div>
-            </div>
-
-          </div>
-
-          <div className="column">
-            <div className="field">
-              <label className="label">Product Description</label>
-              <div className="control">
-                <textarea
-                  rows={6}
-                  className="textarea"
-                  placeholder="Product Description Goes Here..."
-                  disabled={loading}
-                  onChange={(e) => {
-                    setDescription(e.target.value);
-                  }}
-                ></textarea>
-              </div>
-            </div><br />
+            </div><br/>
 
             <div className="field">
               <label className="label">Product Logo</label>
               <div className="control">
-                <div className="file has-name">
+                <div className="file is-fullwidth has-name">
                   <label className="file-label">
                     <input
                       className="file-input"
@@ -192,7 +167,7 @@ const ProductsCreate: NextPage<NextPageProps> = ({ user }) => {
             <div className="field">
               <label className="label">Product Featured Image</label>
               <div className="control">
-                <div className="file has-name">
+                <div className="file is-fullwidth has-name">
                   <label className="file-label">
                     <input
                       className="file-input"
@@ -224,7 +199,7 @@ const ProductsCreate: NextPage<NextPageProps> = ({ user }) => {
             <div className="field">
               <label className="label">Attachments</label>
               <div className="control">
-                <div className="file is-boxed">
+                <div className="file is-centered is-boxed">
                   <label className="file-label">
                     <input
                       className="file-input"
@@ -254,16 +229,33 @@ const ProductsCreate: NextPage<NextPageProps> = ({ user }) => {
             </div>
 
           </div>
-        </div>
 
-        <div className="columns">
           <div className="column">
+            <div className="field">
+              <label className="label">Product Description</label>
+              <div className="control">
+                <DynamicComponentWithNoSSR
+                  onContentChange={(value) => {
+                    setDescription(value);
+                  }}
+                />
+              </div>
+            </div><br />
+
+            <ValueProp
+              isDisabled={loading}
+              onChange={(value: any[]) => {
+                setValues(value);
+              }}
+            /><br />
+
             <ProductPlan
               isDisabled={loading}
               onChange={(value: any[]) => {
                 setPlans(value);
               }}
             />
+
           </div>
         </div>
 
@@ -294,7 +286,7 @@ const ProductsCreate: NextPage<NextPageProps> = ({ user }) => {
                   variables: {
                     name,
                     description,
-                    values: values.map(({ label, value }) => ({ label, value })),
+                    values,
                     features: features.map(({ label, value }) => ({ label, value })),
                     pricing,
                     devices,
@@ -309,9 +301,18 @@ const ProductsCreate: NextPage<NextPageProps> = ({ user }) => {
                   ]
                 })
                   .then(res => {
+                    toastr.success(
+                      `Product with name ${name} has be added and pending Admin approval`,
+                      'Product Addition'
+                    )
                     Router.replace('/vendors/products');
                   })
-                  .catch(console.log);
+                  .catch(error => {
+                    toastr.error(
+                      error.message,
+                      'Product Addition'
+                    )
+                  });
               })
               .catch(error => console.log(error));
           }}

@@ -1,32 +1,30 @@
 import { useState } from "react";
 import { NextComponentType } from "next";
 
-type ProductPlanProps = {
+type ValuePropProps = {
   onChange: Function;
   isDisabled?: boolean;
 }
 
-const ProductPlan: NextComponentType<any, any, ProductPlanProps> = (props) => {
-  const [plans, setPlans] =  useState([]);
+const ValueProp: NextComponentType<any, any, ValuePropProps> = (props) => {
+  const [values, setValues] =  useState([]);
   const [name, setName] =  useState('');
-  const [price, setPrice] =  useState('');
   const [description, setDescription] =  useState('');
 
   return (
     <div className="field">
       <button
         className="button is-info is-pulled-right"
-        disabled={!name || !price || !description}
+        disabled={!name || !description}
         onClick={(e) => {
-          const newPlans = [...plans, { name, price, description }];
-          props.onChange(newPlans);
-          setPlans(newPlans);
+          const newValues = [...values, { name, description }];
+          props.onChange(newValues);
+          setValues(newValues);
           setName('');
-          setPrice('');
           setDescription('');
         }}
       >Add</button>
-      <label className="label is-clearfix">Plans</label>
+      <label className="label is-clearfix">Value Props</label>
       <div className="columns is-marginless">
         <div className="column">
           <div className="field">
@@ -40,23 +38,6 @@ const ProductPlan: NextComponentType<any, any, ProductPlanProps> = (props) => {
                 disabled={props.isDisabled}
                 onChange={e => {
                   setName(e.target.value);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="column">
-          <div className="field">
-            <label className="label">Price</label>
-            <div className="control">
-              <input
-                className="input"
-                type="number"
-                placeholder="Price"
-                value={price}
-                disabled={props.isDisabled}
-                onChange={e => {
-                  setPrice(e.target.value);
                 }}
               />
             </div>
@@ -86,23 +67,21 @@ const ProductPlan: NextComponentType<any, any, ProductPlanProps> = (props) => {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Price</th>
               <th>Description</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            {plans.map((plan, i) => (
+            {values.map((value, i) => (
               <tr key={i}>
-                <td>{plan.name}</td>
-                <td>{plan.price}</td>
-                <td>{plan.description}</td>
+                <td>{value.name}</td>
+                <td>{value.description}</td>
                 <td><i
                   className="material-icons has-text-danger"
                   onClick={(e) => {
-                    const newPlans = plans.filter((value, pos) => pos !== i);
-                    props.onChange(newPlans);
-                    setPlans(newPlans);
+                    const newValues = values.filter((value, pos) => pos !== i);
+                    props.onChange(newValues);
+                    setValues(newValues);
                   }}
                 >close</i></td>
               </tr>
@@ -115,4 +94,4 @@ const ProductPlan: NextComponentType<any, any, ProductPlanProps> = (props) => {
   );
 }
 
-export default ProductPlan;
+export default ValueProp;

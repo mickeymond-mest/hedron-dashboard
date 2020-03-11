@@ -90,7 +90,7 @@ const ProductCardItem: NextComponentType<any, any, ProductCardItemProps> = (
                   }}
                 >Archive</a>
             }
-            <Link href={`/vendors/products/edit?_id=${product._id}`}>
+            <Link href={`/vendors/products/${product._id}/edit`}>
               <a className="card-footer-item has-text-info">Edit</a>
             </Link>
           </footer> :

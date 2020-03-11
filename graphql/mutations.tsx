@@ -4,7 +4,7 @@ export const ADD_PRODUCT = gql`
   mutation AddProduct(
     $name: String!
     $description: String!
-    $values: [SelectableInput!]!
+    $values: [ValueInput!]!
     $features: [SelectableInput!]!
     $pricing: [SelectableInput!]!
     $devices: [SelectableInput!]!
