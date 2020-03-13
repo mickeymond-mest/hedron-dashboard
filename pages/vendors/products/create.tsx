@@ -209,6 +209,7 @@ const ProductsCreate: NextPage<NextPageProps> = ({ user }) => {
         <div className="bx--row">
           <DyanamicRichText
             onContentChange={(value) => {
+              console.log(value);
               setDescription(value);
             }}
           />

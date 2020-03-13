@@ -1,4 +1,5 @@
 @import '../node_modules/carbon-components/css/carbon-components.css';
+@import '../node_modules/draft-js/dist/Draft.css';
 
 .hedron-label {
   display: block;
@@ -11,4 +12,22 @@
 
 .clear-float {
   clear: both;
+}
+
+div.DraftEditor-root {
+  background-color: #F4F4F4;
+  width:100%;
+  margin: 20px auto;
+  height:300px;
+  overflow-y: scroll;
+  padding:20px;
+  font-size: 18px;
+  // font-family: 'calibri', sans-serif;
+}
+
+.rich-editor-header {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }

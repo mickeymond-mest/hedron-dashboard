@@ -112,8 +112,11 @@ export const GET_PRODUCT_BY_ID = gql`
       }
       plans {
         name
-        name
-        description
+        price
+        features {
+          label
+          value
+        }
       }
       logo {
         url

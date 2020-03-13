@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
 import { NextPage, NextPageContext, NextApiRequest } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 import Router from 'next/router';
 import fetch from 'isomorphic-unfetch';
 import { ApolloProvider } from '@apollo/client';
+import {
+  Content,
+  SideNav,
+  SideNavItems,
+  SideNavMenu,
+  SideNavMenuItem,
+  Search
+} from 'carbon-components-react';
 
 import auth0 from '../utils/auth0';
 import apolloClient from '../utils/apolloClient';
-
-import Drawer from 'rc-drawer';
 
 import Header from '../components/Header';
 import { links } from '../utils/data';
 
 import '../styles/styles.scss';
-import { Content, SideNav, SideNavItems, SideNavMenu, SideNavMenuItem, SideNavLink, Search } from 'carbon-components-react';
 
 type LayoutProps = {
   user: object | null;
