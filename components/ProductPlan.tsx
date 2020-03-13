@@ -1,6 +1,19 @@
 import { useState } from "react";
 import { NextComponentType } from "next";
-import { Tile, Button, TextInput, DataTable, TableContainer, Table, TableHead, TableRow, TableHeader, TableBody, TableCell } from "carbon-components-react";
+import {
+  Tile,
+  Button,
+  TextInput,
+  DataTable,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableHeader,
+  TableBody,
+  TableCell
+} from "carbon-components-react";
+import CreatableSelect from 'react-select/creatable';
 
 type ProductPlanProps = {
   onChange: Function;
@@ -11,7 +24,7 @@ const ProductPlan: NextComponentType<any, any, ProductPlanProps> = (props) => {
   const [plans, setPlans] =  useState([]);
   const [name, setName] =  useState('');
   const [price, setPrice] =  useState('');
-  const [description, setDescription] =  useState('');
+  const [features, setFeatures] =  useState([]);
 
   return (
     <Tile>
@@ -20,10 +33,9 @@ const ProductPlan: NextComponentType<any, any, ProductPlanProps> = (props) => {
         headers={[
           { header: "Name", key: "name" },
           { header: "Price", key: "price" },
-          { header: "Description", key: "description" },
         ]}
         render={({ rows, headers, getHeaderProps }) => (
-          <TableContainer title="Product Values">
+          <TableContainer title="Product Plans">
             <Table>
               <TableHead>
                 <TableRow>
@@ -55,14 +67,21 @@ const ProductPlan: NextComponentType<any, any, ProductPlanProps> = (props) => {
 
       <Button
         className="add-btn"
-        disabled={!name || !price || !description}
+        disabled={!name || !price || !features.length}
         onClick={(e) => {
-          const newPlans = [...plans, { name, price, description }];
+          const newPlans = [
+            ...plans,
+            {
+              name,
+              price,
+              features: features.map(x => ({ label: x.label, value: x.value }))
+            }
+          ];
           props.onChange(newPlans);
           setPlans(newPlans);
           setName('');
           setPrice('');
-          setDescription('');
+          setFeatures([]);
         }}
       >Add</Button>
       <div className="clear-float"></div>
@@ -87,15 +106,18 @@ const ProductPlan: NextComponentType<any, any, ProductPlanProps> = (props) => {
         }}
       /><br />
 
-      <TextInput
-        id="plan-description"
-        labelText="Description"
-        value={description}
-        disabled={props.isDisabled}
-        onChange={e => {
-          setDescription(e.target.value);
-        }}
-      />
+      <div>
+        <label className="hedron-label">Features</label>
+        <CreatableSelect
+          instanceId="features"
+          isMulti
+          options={[]}
+          value={features}
+          onChange={(value) => {
+            setFeatures(value);
+          }}
+        />
+      </div>
     </Tile>
   );
 }

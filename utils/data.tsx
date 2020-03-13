@@ -66,7 +66,14 @@ export const links = {
       icon: "perm_identity",
       link: "/vendors/leads",
       as: "/vendors/leads",
-      subs: []
+      subs: [
+        {
+          label: "All Leads",
+          icon: "add",
+          link: "/vendors/leads",
+          as: "/vendors/leads"
+        },
+      ]
     },
     {
       label: "Chat Room",

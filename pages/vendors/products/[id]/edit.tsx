@@ -308,7 +308,7 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
                   variables: {
                     name,
                     description,
-                    values: values.map(({ label, value }) => ({ label, value })),
+                    values,
                     features: features.map(({ label, value }) => ({ label, value })),
                     pricing,
                     devices,

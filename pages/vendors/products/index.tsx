@@ -33,6 +33,10 @@ const headerData = [
     key: 'name',
   },
   {
+    header: 'Summary',
+    key: 'summary',
+  },
+  {
     header: 'Status',
     key: 'status',
   }

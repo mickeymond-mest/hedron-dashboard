@@ -197,6 +197,7 @@ const ProductsCreate: NextPage<NextPageProps> = ({ user }) => {
             <ProductPlan
               isDisabled={loading}
               onChange={(value: any[]) => {
+                console.log(value);
                 setPlans(value);
               }}
             />
@@ -240,6 +241,7 @@ const ProductsCreate: NextPage<NextPageProps> = ({ user }) => {
                 addProduct({
                   variables: {
                     name,
+                    summary,
                     description,
                     values,
                     features: features.map(({ label, value }) => ({ label, value })),

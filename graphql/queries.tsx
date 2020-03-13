@@ -19,6 +19,7 @@ export const GET_PRODUCTS = gql`
       status
       archived
       name
+      summary
       description
       values {
         _id
@@ -123,6 +124,24 @@ export const GET_PRODUCT_BY_ID = gql`
       attachments {
         url
       }
+    }
+  }
+`;
+
+export const GET_LEADS = gql`
+  query DemoRequests(
+    $receiver: String!
+  ) {
+    demoRequests(
+      filter: {
+        receiver: $receiver
+      }
+    ) {
+      _id
+      firstName
+      lastName
+      email
+      phoneNumber
     }
   }
 `;
