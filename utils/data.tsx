@@ -98,13 +98,19 @@ export const links = {
       as: "/admin/dashboard",
       subs: []
     },
-    // { label: "Inbox", icon: "inbox", link: "/inbox", as: "/inbox" },
     {
       label: "Products",
       icon: "verified_user",
       link: "/admin/products",
       as: "/admin/products",
-      subs: []
+      subs: [
+        {
+          label: "All Products",
+          icon: "verified_user",
+          link: "/admin/products",
+          as: "/admin/products"
+        },
+      ]
     },
     {
       label: "Vendors",
@@ -113,8 +119,6 @@ export const links = {
       as: "/admin/vendors",
       subs: []
     },
-    // { label: "Chat Room", icon: "chat", link: "/admin/chat", as: "/admin/chat" },
-    // { label: "Help Center", icon: "help", link: "/admin/help", as: "/admin/help" },
     {
       label: "Settings",
       icon: "settings",

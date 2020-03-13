@@ -11,60 +11,157 @@ import { UPDATE_STATUS } from "../../../graphql/mutations";
 import { NextPageProps } from '../../../utils/PropTypes';
 import { ProductType, ProductFilter, UpdateStatusInput } from "../../../utils/interfaces";
 
-import ProductCardItem from '../../../components/ProductCardItem';
-// import Filter from "../../../components/Filter";
+import {
+  DataTable,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableSelectAll,
+  TableHeader,
+  TableBody,
+  TableSelectRow,
+  TableCell,
+  InlineLoading,
+  InlineNotification,
+  OverflowMenu,
+  OverflowMenuItem
+} from "carbon-components-react";
+import Router from "next/router";
+import { Fragment } from "react";
+
+const headerData = [
+  {
+    header: 'Name',
+    key: 'name',
+  },
+  {
+    header: 'Status',
+    key: 'status',
+  }
+];
 
 const ProductsIndex: NextPage<NextPageProps> = ({ user }) => {
   const { loading, error, data } = useQuery<{ products: ProductType[] }, ProductFilter>(GET_PRODUCTS);
 
   const [updateStatus] = useMutation<{ updateStatus: ProductType }, UpdateStatusInput>(UPDATE_STATUS);
 
+  const renderActions = (id: string) => {
+    const product = data.products.find(x => x._id === id);
+    switch (product.status) {
+      case 'approved':
+        return (
+          <Fragment>
+            <OverflowMenuItem
+              itemText="Revoke Approval"
+              onClick={() => {
+                updateStatus({
+                  variables: { productId: id, status: 'pending' },
+                  refetchQueries: [
+                    { query: GET_PRODUCTS }
+                  ]
+                });
+              }}
+            />
+          </Fragment>
+        );
+      case 'denied':
+        return (
+          <Fragment>
+            <OverflowMenuItem
+              itemText="Revoke Denial"
+              onClick={() => {
+                updateStatus({
+                  variables: { productId: id, status: 'pending' },
+                  refetchQueries: [
+                    { query: GET_PRODUCTS }
+                  ]
+                });
+              }}
+            />
+          </Fragment>
+        );
+      default:
+        return (
+          <Fragment>
+            <OverflowMenuItem
+              itemText="Approve"
+              onClick={() => {
+                updateStatus({
+                  variables: { productId: id, status: 'approved' },
+                  refetchQueries: [
+                    { query: GET_PRODUCTS }
+                  ]
+                });
+              }}
+            />
+            <OverflowMenuItem
+              itemText="Deny"
+              onClick={() => {
+                updateStatus({
+                  variables: { productId: id, status: 'denied' },
+                  refetchQueries: [
+                    { query: GET_PRODUCTS }
+                  ]
+                });
+              }}
+            />
+          </Fragment>
+        );
+    }
+  }
+
   if (loading) {
-    return (
-      <div className="pageloader is-active is-bottom-to-top">
-        <span className="title">Retrieving Products...</span>
-      </div>
-    );
+    return <InlineLoading id="products-loading" description="Fetching Your Products..." />;
   }
 
   if (error) {
-    return (
-      <div className="pageloader has-background-danger is-active is-bottom-to-top">
-        <span className="title">{error.message}</span>
-      </div>
-    );
+    return <InlineNotification title={error.message} kind="error" />;
   }
 
   return (
     <section className="section">
-      <section className="section">
-        <h1 className="title is-4">Products</h1>
-      </section>
-      <section className="section">
-        <div className="columns is-multiline">
-          {data.products.map(product => (
-            <ProductCardItem
-              key={product._id}
-              product={product}
-              hasVendorActions={false}
-              onStatusChange={(productId: string, status: string) => {
-                updateStatus({
-                  variables: { productId, status },
-                  refetchQueries: [
-                    { query: GET_PRODUCTS }
-                  ]
-                })
-                .then(data => {
-                  toastr.success(
-                    `Status of Product with ID: ${productId} has changed to ${status}`,
-                    `Product Status Change`
-                  )
-                });
-              }}
-            />
-          ))}
-        </div>
-      </section>
+      <DataTable
+        rows={(data.products.map(product => ({ ...product, id: product._id })) as any[])}
+        headers={headerData}
+        render={({ rows, headers, getHeaderProps, getSelectionProps, getRowProps }) => (
+          <TableContainer title="All Products">
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableSelectAll {...getSelectionProps()} />
+                  {headers.map(header => (
+                    <TableHeader {...getHeaderProps({ header })}>
+                      {header.header}
+                    </TableHeader>
+                  ))}
+                  <TableHeader>Actions</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map(row => (
+                  <TableRow {...getRowProps({ row })}>
+                    <TableSelectRow {...getSelectionProps({ row })} />
+                    {row.cells.map(cell => (
+                      <TableCell key={cell.id}>{cell.value}</TableCell>
+                    ))}
+                    <TableCell>
+                      <OverflowMenu>
+                        <OverflowMenuItem
+                          itemText="View"
+                          onClick={() => {
+                            Router.push(`/vendors/products/${row.id}`);
+                          }}
+                        />
+                        {renderActions(row.id)}
+                      </OverflowMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>)}
+      />
     </section>
   );
 }
