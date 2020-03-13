@@ -302,32 +302,32 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
               formData.append('attachments', refAttachments.files.item(i));
             }
 
-            axios.post(`${process.env.REST_ENDPOINT}/products/uploads`, formData)
-              .then(({ data }) => {
-                addProduct({
-                  variables: {
-                    name,
-                    description,
-                    values,
-                    features: features.map(({ label, value }) => ({ label, value })),
-                    pricing,
-                    devices,
-                    categories,
-                    plans,
-                    logo: data.logo,
-                    featured: data.featured,
-                    attachments: data.attachments,
-                  },
-                  refetchQueries: [
-                    { query: GET_PRODUCTS, variables: { userId: user.sub } }
-                  ]
-                })
-                  .then(res => {
-                    router.replace('/vendors/products');
-                  })
-                  .catch(console.log);
-              })
-              .catch(error => console.log(error));
+            // axios.post(`${process.env.REST_ENDPOINT}/products/uploads`, formData)
+            //   .then(({ data }) => {
+            //     addProduct({
+            //       variables: {
+            //         name,
+            //         description,
+            //         values,
+            //         features: features.map(({ label, value }) => ({ label, value })),
+            //         pricing,
+            //         devices,
+            //         categories,
+            //         plans,
+            //         logo: data.logo,
+            //         featured: data.featured,
+            //         attachments: data.attachments,
+            //       },
+            //       refetchQueries: [
+            //         { query: GET_PRODUCTS, variables: { userId: user.sub } }
+            //       ]
+            //     })
+            //       .then(res => {
+            //         router.replace('/vendors/products');
+            //       })
+            //       .catch(console.log);
+            //   })
+            //   .catch(error => console.log(error));
           }}
         >Update Product</button>
       </section>
