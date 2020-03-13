@@ -15,10 +15,13 @@
     "@apollo/client": "^3.0.0-beta.39",
     "@apollo/link-context": "^2.0.0-beta.3",
     "@auth0/nextjs-auth0": "^0.10.0",
+    "@carbon/icons-react": "^10.9.1",
     "@zeit/next-sass": "^1.0.1",
     "axios": "^0.19.2",
     "bulma": "^0.8.0",
     "bulma-extensions": "^6.2.7",
+    "carbon-components": "^10.10.1",
+    "carbon-components-react": "^7.10.1",
     "chart.js": "^2.9.3",
     "graphql": "^14.6.0",
     "isomorphic-unfetch": "^3.0.0",
@@ -33,6 +36,7 @@
     "toastr": "^2.1.4"
   },
   "devDependencies": {
+    "@types/carbon-components-react": "^7.6.15",
     "@types/node": "^13.7.6",
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",

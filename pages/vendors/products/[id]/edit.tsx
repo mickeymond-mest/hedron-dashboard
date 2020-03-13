@@ -47,7 +47,7 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
 
   const { loading: fetching, error, data: response } = useQuery<{ getProductById: ProductType }, { productId: string }>(
     GET_PRODUCT_BY_ID,
-    { variables: { productId: (router.query._id as string) } }
+    { variables: { productId: (router.query.id as string) } }
   );
 
   const [addProduct] = useMutation<{ addProduct: ProductType }, ProductInput>(ADD_PRODUCT);
@@ -70,9 +70,7 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
 
   return (
     <section className="section">
-      <section className="section">
-        <h1 className="title">Edit A Product</h1>
-      </section>
+        <h2>Edit A Product</h2>
 
       <section className="section">
         

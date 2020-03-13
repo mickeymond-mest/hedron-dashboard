@@ -28,13 +28,6 @@ export const categories = [
 export const links = {
   vendor: [
     {
-      label: "Home",
-      icon: "home",
-      link: "/index",
-      as: "/",
-      subs: []
-    },
-    {
       label: "Dashboard",
       icon: "dashboard",
       link: "/vendors/dashboard",
@@ -54,6 +47,12 @@ export const links = {
       link: "/vendors/products",
       as: "/vendors/products",
       subs: [
+        {
+          label: "All Products",
+          icon: "verified_user",
+          link: "/vendors/products",
+          as: "/vendors/products"
+        },
         {
           label: "Add Product",
           icon: "add",
@@ -92,13 +91,6 @@ export const links = {
     },
   ],
   admin: [
-    {
-      label: "Home",
-      icon: "home",
-      link: "/index",
-      as: "/",
-      subs: []
-    },
     {
       label: "Dashboard",
       icon: "dashboard",

@@ -15,6 +15,7 @@ import Header from '../components/Header';
 import { links } from '../utils/data';
 
 import '../styles/styles.scss';
+import { Content, SideNav, SideNavItems, SideNavMenu, SideNavMenuItem, SideNavLink, Search } from 'carbon-components-react';
 
 type LayoutProps = {
   user: object | null;
@@ -66,77 +67,32 @@ const DefaultLayout = (WrappedComponent: NextPage) => {
       const NAV_ITEMS = links[this.props.user['https://deegify.dev/roles'][0]] || [];
       return (
         <ApolloProvider client={client}>
-          <Drawer
-            open={this.state.isDrawerOpen}
-            width="250px"
-            handler={false}
+          <Head>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+            <link href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet" />
+          </Head>
+          <Header />
+          <SideNav
+            expanded={true}
+            isChildOfHeader={false}
+            aria-label="Side navigation"
           >
-            <div
-              style={this.state.isDrawerOpen ? { display: 'block' } : { display: 'none' }}
-              className="hedron-sidebar">
-              <div className="has-text-white hedron-logo">
-                <span>HEDRON</span>
-              </div>
-              {NAV_ITEMS.map(item => (
-                <div key={item.link} className="leadron-menu-container">
-                  <Link href={item.link} as={item.as}>
-                    <a
-                      title={item.label}
-                      onClick={e => {
-                        this.toggleDrawer();
-                      }}
-                    >
-                      <div className="has-text-white hedron-sidebar-menu">
-                        <i className="material-icons">{item.icon}</i>
-                        <span>{item.label}</span>
-                      </div>
-                    </a>
-                  </Link>
-                  {item.subs.map(sub => (
-                    <Link key={sub.link} href={sub.link} as={sub.link}>
-                      <a
-                        title={sub.title}
-                        onClick={e => {
-                          this.toggleDrawer();
-                        }}
-                      >
-                        <div className="has-text-white hedron-sidebar-menu hedron-sidebar-menu-sub">
-                          <i className="material-icons">{sub.icon}</i>
-                          <span>{sub.label}</span>
-                        </div>
-                      </a>
-                    </Link>
+            <SideNavItems>
+            {NAV_ITEMS.map(parent => (
+                <SideNavMenu key={parent.label} title={parent.label}>
+                  {parent.subs.map(child => (
+                    <SideNavMenuItem key={child.label} href={child.link}>
+                      {child.label}
+                    </SideNavMenuItem>
                   ))}
-                </div>
-              ))}
-            </div>
-          </Drawer>
-          <div
-            className="columns is-gapless hedron-layout"
-            onClick={e => {
-              // this.toggleDrawer();
-            }}
-          >
-            <div className="hedron-main column">
-              <Head>
-                <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
-                <link href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet"></link>
-              </Head>
-              <Header
-                toggleDrawer={() => {
-                  this.toggleDrawer();
-                }}
-              />
-              <WrappedComponent {...this.props} />
-              <br /><br />
-              <footer className="footer">
-                <div className="content has-text-centered">
-                  <p>Hedron is the best</p>
-                </div>
-              </footer>
-            </div>
-          </div>
+                </SideNavMenu>
+            ))}
+            </SideNavItems>
+          </SideNav>
+          <Content>
+            <Search id="hedron-search" labelText="Search Here" /> <br /><br />
+            <WrappedComponent {...this.props} />
+          </Content>
         </ApolloProvider>
       );
     }

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NextComponentType } from "next";
+import { Tile, Button, TextInput, DataTable, TableContainer, Table, TableHead, TableRow, TableHeader, TableBody, TableCell } from "carbon-components-react";
 
 type ProductPlanProps = {
   onChange: Function;
@@ -13,9 +14,47 @@ const ProductPlan: NextComponentType<any, any, ProductPlanProps> = (props) => {
   const [description, setDescription] =  useState('');
 
   return (
-    <div className="field">
-      <button
-        className="button is-info is-pulled-right"
+    <Tile>
+      <DataTable
+        rows={(plans.map((val, i) => ({ ...val, id: `${i}` })))}
+        headers={[
+          { header: "Name", key: "name" },
+          { header: "Price", key: "price" },
+          { header: "Description", key: "description" },
+        ]}
+        render={({ rows, headers, getHeaderProps }) => (
+          <TableContainer title="Product Values">
+            <Table>
+              <TableHead>
+                <TableRow>
+                  {headers.map(header => (
+                    <TableHeader {...getHeaderProps({ header })}>
+                      {header.header}
+                    </TableHeader>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map(row => (
+                  <TableRow
+                    key={row.id}
+                    onClick={e => {
+                      const newValues = plans.filter((val, i) => `${i}` !== row.id);
+                      props.onChange(newValues);
+                      setPlans(newValues);
+                    }}>
+                    {row.cells.map(cell => (
+                      <TableCell key={cell.id}>{cell.value}</TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>)}
+      /><br />
+
+      <Button
+        className="add-btn"
         disabled={!name || !price || !description}
         onClick={(e) => {
           const newPlans = [...plans, { name, price, description }];
@@ -25,93 +64,39 @@ const ProductPlan: NextComponentType<any, any, ProductPlanProps> = (props) => {
           setPrice('');
           setDescription('');
         }}
-      >Add</button>
-      <label className="label is-clearfix">Plans</label>
-      <div className="columns is-marginless">
-        <div className="column">
-          <div className="field">
-            <label className="label">Name</label>
-            <div className="control">
-              <input
-                className="input"
-                type="text"
-                placeholder="Name"
-                value={name}
-                disabled={props.isDisabled}
-                onChange={e => {
-                  setName(e.target.value);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="column">
-          <div className="field">
-            <label className="label">Price</label>
-            <div className="control">
-              <input
-                className="input"
-                type="number"
-                placeholder="Price"
-                value={price}
-                disabled={props.isDisabled}
-                onChange={e => {
-                  setPrice(e.target.value);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="column">
-          <div className="field">
-            <label className="label">Description</label>
-            <div className="control">
-              <input
-                className="input"
-                type="text"
-                placeholder="Description"
-                value={description}
-                disabled={props.isDisabled}
-                onChange={e => {
-                  setDescription(e.target.value);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="card">
-        <div className="card-content">
-        <table className="table is-fullwidth">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Price</th>
-              <th>Description</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {plans.map((plan, i) => (
-              <tr key={i}>
-                <td>{plan.name}</td>
-                <td>{plan.price}</td>
-                <td>{plan.description}</td>
-                <td><i
-                  className="material-icons has-text-danger"
-                  onClick={(e) => {
-                    const newPlans = plans.filter((value, pos) => pos !== i);
-                    props.onChange(newPlans);
-                    setPlans(newPlans);
-                  }}
-                >close</i></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        </div>
-      </div>
-    </div>
+      >Add</Button>
+      <div className="clear-float"></div>
+
+      <TextInput
+        id="plan-name"
+        labelText="Name"
+        value={name}
+        disabled={props.isDisabled}
+        onChange={e => {
+          setName(e.target.value);
+        }}
+      /><br />
+
+      <TextInput
+        id="plan-price"
+        labelText="Price"
+        value={price}
+        min={0}
+        onChange={e => {
+          setPrice(e.target.value);
+        }}
+      /><br />
+
+      <TextInput
+        id="plan-description"
+        labelText="Description"
+        value={description}
+        disabled={props.isDisabled}
+        onChange={e => {
+          setDescription(e.target.value);
+        }}
+      />
+    </Tile>
   );
 }
 

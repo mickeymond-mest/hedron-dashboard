@@ -1,118 +1,14 @@
-// We can import bulma into the project using Sass.
-@import "../node_modules/bulma/bulma.sass";
-@import "../node_modules/bulma-extensions/bulma-pageloader/src/sass/index.sass";
+@import '../node_modules/carbon-components/css/carbon-components.css';
 
-body {
-  background-color: #F0F0F7;
+.hedron-label {
+  display: block;
+  margin-bottom: 10px;
 }
 
-.hedron-products-filter-bar {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
+.add-btn {
+  float: right;
 }
 
-.status {
-  font-weight: bold;
-}
-
-.hedron-dropdown {
-  width: 100%;
-}
-
-.trimmed-content {
-  height: 100px;
-  white-space: normal;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.material-icons {
-  cursor: pointer;
-}
-
-.hedron-layout {
-  margin: 0 !important;
-  min-height: 100vh;
-}
-
-.hedron-main {
-  padding: 0 !important;
-  margin: 0 !important;
-  width: 100%;
-}
-
-.hedron-navbar {
-  height: 70px;
-  position: fixed;
-  right: 0;
-  width: 100%;
-}
-
-.hedron-navbar-search {
-  width: 700px;
-}
-
-.hedron-sidebar {
-  background-color: #43425D;
-  padding: 0 !important;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 250px;
-  overflow: scroll;
-  height: 100vh;
-  display: none;
-}
-
-.hedron-sidebar-menu {
-  height: 55px;
-  display: flex;
-  align-items: center;
-  padding-left: 1rem;
-}
-
-.hedron-sidebar-menu-sub {
-  background-color: #9290E1;
-  margin-left: 40px;
-  display: none;
-}
-
-.hedron-sidebar-menu:hover {
-  background-color: #3C3B53;
-  border-right: 5px solid #9290E1;
-}
-
-.hedron-sidebar-menu:hover i {
-  color: #9290E1;
-}
-
-.leadron-menu-container:hover .hedron-sidebar-menu-sub {
-  display: flex;
-}
-
-.hedron-sidebar-menu-selected {
-  background-color: #3C3B53;
-  cursor: pointer;
-  border-right: 5px solid #9290E1;
-}
-
-.hedron-sidebar-menu-selected i {
-  color: #9290E1;
-}
-
-.hedron-sidebar-menu span {
-  margin-left: 0.5rem;
-}
-
-.hedron-logo {
-  height: 70px;
-  background-color: #3C3B53;
-  display: flex;
-  align-items: center;
-  padding-left: 1rem;
-}
-
-.hedron-logo span {
-  font-weight: bold;
+.clear-float {
+  clear: both;
 }

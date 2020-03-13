@@ -9,8 +9,34 @@ import { ARCHIVE_PRODUCT, RESTORE_PRODUCT } from "../../../graphql/mutations";
 import { NextPageProps } from '../../../utils/PropTypes';
 import { ProductType, ProductFilter } from "../../../utils/interfaces";
 
-import ProductCardItem from '../../../components/ProductCardItem';
-// import Filter from "../../../components/Filter";
+import {
+  DataTable,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableSelectAll,
+  TableHeader,
+  TableBody,
+  TableSelectRow,
+  TableCell,
+  InlineLoading,
+  InlineNotification,
+  OverflowMenu,
+  OverflowMenuItem
+} from "carbon-components-react";
+import Router from "next/router";
+
+const headerData = [
+  {
+    header: 'Name',
+    key: 'name',
+  },
+  {
+    header: 'Status',
+    key: 'status',
+  }
+];
 
 const ProductsIndex: NextPage<NextPageProps> = ({ user }) => {
   const { loading, error, data, refetch } = useQuery<{ products: ProductType[] }, ProductFilter>(
@@ -21,50 +47,97 @@ const ProductsIndex: NextPage<NextPageProps> = ({ user }) => {
   const [archiveProduct] = useMutation<{ product: ProductType }, { productId: string }>(ARCHIVE_PRODUCT);
   const [restoreProduct] = useMutation<{ product: ProductType }, { productId: string }>(RESTORE_PRODUCT);
 
-  if (loading) {
+  const renderArchived = (id: string) => {
+    const product = data.products.find(x => x._id === id);
+
+    if (product.archived) {
+      return (
+        <OverflowMenuItem
+          itemText="Restore"
+          onClick={() => {
+            restoreProduct({
+              variables: { productId: id },
+              refetchQueries: [
+                { query: GET_PRODUCTS, variables: { userId: user.sub } }
+              ]
+            });
+          }}
+        />
+      );
+    }
+
     return (
-      <div className="pageloader is-active is-bottom-to-top">
-        <span className="title">Retrieving Your Products...</span>
-      </div>
+      <OverflowMenuItem
+        itemText="Archive"
+        onClick={() => {
+          archiveProduct({
+            variables: { productId: id },
+            refetchQueries: [
+              { query: GET_PRODUCTS, variables: { userId: user.sub } }
+            ]
+          });
+        }}
+      />
     );
   }
 
+  if (loading) {
+    return <InlineLoading id="products-loading" description="Fetching Your Products..." />;
+  }
+
   if (error) {
-    return (
-      <div className="pageloader has-background-danger is-active is-bottom-to-top">
-        <span className="title">{error.message}</span>
-      </div>
-    );
+    return <InlineNotification title={error.message} kind="error" />;
   }
 
   return (
     <section className="section">
-      <section className="section">
-        <h1 className="title">Products</h1>
-      </section>
-      <section className="section">
-        <div className="columns is-multiline">
-          {data.products.map(product => (
-            <ProductCardItem
-              key={product._id}
-              product={product}
-              hasVendorActions={true}
-              onArchive={(productId: string) => {
-                archiveProduct({
-                  variables: { productId },
-                  refetchQueries: [ { query: GET_PRODUCTS, variables: { userId: user.sub } } ]
-                });
-              }}
-              onRestore={(productId: string) => {
-                restoreProduct({
-                  variables: { productId },
-                  refetchQueries: [ { query: GET_PRODUCTS, variables: { userId: user.sub } } ]
-                });
-              }}
-            />
-          ))}
-        </div>
-      </section>
+      <DataTable
+        rows={(data.products.map(product => ({ ...product, id: product._id })) as any[])}
+        headers={headerData}
+        render={({ rows, headers, getHeaderProps, getSelectionProps, getRowProps }) => (
+          <TableContainer title="All Products">
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableSelectAll {...getSelectionProps()} />
+                  {headers.map(header => (
+                    <TableHeader {...getHeaderProps({ header })}>
+                      {header.header}
+                    </TableHeader>
+                  ))}
+                  <TableHeader>Actions</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map(row => (
+                  <TableRow {...getRowProps({ row })}>
+                    <TableSelectRow {...getSelectionProps({ row })} />
+                    {row.cells.map(cell => (
+                      <TableCell key={cell.id}>{cell.value}</TableCell>
+                    ))}
+                    <TableCell>
+                      <OverflowMenu>
+                        <OverflowMenuItem
+                          itemText="View"
+                          onClick={() => {
+                            Router.push(`/vendors/products/${row.id}`);
+                          }}
+                        />
+                        <OverflowMenuItem
+                          itemText="Edit"
+                          onClick={() => {
+                            Router.push(`/vendors/products/${row.id}/edit`);
+                          }}
+                        />
+                        {renderArchived(row.id)}
+                      </OverflowMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>)}
+      />
     </section>
   );
 }
