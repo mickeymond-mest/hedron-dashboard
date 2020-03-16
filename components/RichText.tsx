@@ -1,34 +1,14 @@
-// @ts-nocheck
-
 import { useState, Fragment } from 'react';
 import { NextComponentType } from 'next';
 
-import { EditorState } from 'draft-js';
-import Editor from 'draft-js-plugins-editor';
-// import createEditorStateWithText from 'draft-js-plugins-editor/lib/utils/createEditorStateWithText';
-import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin';
-import { stateToHTML } from 'draft-js-export-html';
-import {
-  ItalicButton,
-  BoldButton,
-  UnderlineButton,
-  HeadlineOneButton,
-  HeadlineTwoButton,
-  HeadlineThreeButton,
-  UnorderedListButton,
-  OrderedListButton,
-} from 'draft-js-buttons';
-
-const InlineToolbarPlugin = createInlineToolbarPlugin();
-const { InlineToolbar } = InlineToolbarPlugin;
-const plugins = [InlineToolbarPlugin];
+import RichTextEditor from 'react-rte';
 
 type RichTextProps = {
   onContentChange: Function;
 }
 
 const RichText: NextComponentType<any, any, RichTextProps> = ({ onContentChange }) => {
-  const [content, setContent] = useState(EditorState.createEmpty());
+  const [content, setContent] = useState(RichTextEditor.createEmptyValue())
 
   return (
     <Fragment>
@@ -38,30 +18,13 @@ const RichText: NextComponentType<any, any, RichTextProps> = ({ onContentChange 
         </div>
       </div>
       <div className="editor">
-        <Editor
-          editorState={content}
+        <RichTextEditor
+          value={content}
           onChange={editorContent => {
-            onContentChange(stateToHTML(editorContent.getCurrentContent()));
+            onContentChange(editorContent.toString('html'));
             setContent(editorContent);
           }}
-          plugins={plugins}
         />
-        <InlineToolbar>
-          {
-            externalProps => (
-              <Fragment>
-                <ItalicButton {...externalProps} />
-                <BoldButton {...externalProps} />
-                <UnderlineButton {...externalProps} />
-                <UnorderedListButton {...externalProps} />
-                <HeadlineOneButton {...externalProps} />
-                <HeadlineTwoButton {...externalProps} />
-                <HeadlineThreeButton {...externalProps} />
-                <OrderedListButton {...externalProps} />
-              </Fragment>
-            )
-          }
-        </InlineToolbar>
       </div>
     </Fragment>
   );
