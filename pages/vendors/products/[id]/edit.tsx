@@ -15,23 +15,36 @@ import { NextPageProps } from '../../../../utils/PropTypes';
 import * as data from '../../../../utils/data';
 import axios from 'axios';
 import { ProductInput, ProductType } from "../../../../utils/interfaces";
-import { GET_PRODUCTS, GET_PRODUCT_BY_ID } from "../../../../graphql/queries";
+import { GET_PRODUCT_BY_ID } from "../../../../graphql/queries";
 import ValueProp from "../../../../components/ValueProp";
 import dynamic from "next/dynamic";
+import {
+  TextInput,
+  FileUploaderButton,
+  Button,
+  ButtonSkeleton,
+  InlineNotification
+} from "carbon-components-react";
 
-const DynamicComponentWithNoSSR = dynamic(
+const DyanamicRichText = dynamic(
   () => import('../../../../components/RichText'),
   { ssr: false }
-)
+);
+
+const DyanamicInlineLoading = dynamic(
+  () => import('../../../../components/Loading'),
+  { ssr: false }
+);
 
 const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
   const [loading, setLoading] = useState(false);
 
   const [name, setName] = useState('');
+  const [summary, setSummary] = useState('');
   const [description, setDescription] = useState('');
 
-  const [logoLabel, setLogoLabel] = useState('');
-  const [featuredLabel, setFeaturedLabel] = useState('');
+  const [hasLogo, setHasLogo] = useState(false);
+  const [hasFeatured, setHasFeatured] = useState(false);
   const [hasAttachments, setHasAttachments] = useState(false);
 
   const [values, setValues] = useState([]);
@@ -50,220 +63,151 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
     { variables: { productId: (router.query.id as string) } }
   );
 
-  const [addProduct] = useMutation<{ addProduct: ProductType }, ProductInput>(ADD_PRODUCT);
+  // const [addProduct] = useMutation<{ addProduct: ProductType }, ProductInput>(ADD_PRODUCT);
 
   if (fetching) {
-    return (
-      <div className="pageloader is-active is-bottom-to-top">
-        <span className="title">Retrieving The Product...</span>
-      </div>
-    );
+    return <DyanamicInlineLoading description="Get the Product..." />;
   }
 
   if (error) {
-    return (
-      <div className="pageloader has-background-danger is-active is-bottom-to-top">
-        <span className="title">{error.message}</span>
-      </div>
-    );
+    return <InlineNotification title={error.message} kind="error" />;
   }
 
   return (
-    <section className="section">
-        <h2>Edit A Product</h2>
+    <section>
+      <h2>Product Addition Form</h2>
+      <br />
 
-      <section className="section">
-        
-      <div className="columns">
-          <div className="column is-one-third">
-            <div className="field">
-              <label className="label">Product Name</label>
-              <div className="control">
-                <input
-                  className="input"
-                  type="text"
-                  placeholder="Product Name"
-                  disabled={loading}
-                  defaultValue={response.getProductById.name}
-                  onChange={e => {
-                    setName(e.target.value);
-                  }}
-                />
-              </div>
-            </div><br />
+      <div className="bx--grid">
+        <div className="bx--row">
+          <div className="bx--col">
+            <br />
+            <TextInput
+              id="name"
+              labelText="Product Name"
+              defaultValue={response.getProductById.name}
+              onChange={e => {
+                setName(e.target.value);
+              }}
+            />
+            <br />
 
-            <div className="field">
-              <label className="label">Features</label>
-              <div className="control">
-                <CreatableSelect
-                  instanceId="features"
-                  isMulti
-                  options={[]}
-                  defaultValue={(response.getProductById.features as any[])}
-                  isDisabled={loading}
-                  onChange={(value) => {
-                    setFeatures(value);
-                  }}
-                />
-              </div>
-            </div><br />
+            <TextInput
+              id="summary"
+              labelText="Product Summary"
+              defaultValue={response.getProductById.summary}
+              onChange={e => {
+                setSummary(e.target.value);
+              }}
+            />
+            <br />
 
-            <div className="field">
-              <label className="label">Pricing</label>
-              <div className="control">
-                <Select
-                  instanceId="pricing"
-                  isMulti
-                  options={data.pricing}
-                  defaultValue={response.getProductById.pricing}
-                  isDisabled={loading}
-                  onChange={(value: any[]) => {
-                    setPricing(value);
-                  }}
-                />
-              </div>
-            </div><br />
-
-            <div className="field">
-              <label className="label">Devices</label>
-              <div className="control">
-                <Select
-                  instanceId="devices"
-                  isMulti
-                  options={data.devices}
-                  isDisabled={loading}
-                  onChange={(value: any[]) => {
-                    setDevices(value);
-                  }}
-                />
-              </div>
-            </div><br />
-
-            <div className="field">
-              <label className="label">Categories</label>
-              <div className="control">
-                <Select
-                  instanceId="categories"
-                  isMulti
-                  options={data.categories}
-                  isDisabled={loading}
-                  onChange={(value: any[]) => {
-                    setCategories(value);
-                  }}
-                />
-              </div>
-            </div><br/>
-
-            <div className="field">
-              <label className="label">Product Logo</label>
-              <div className="control">
-                <div className="file is-fullwidth has-name">
-                  <label className="file-label">
-                    <input
-                      className="file-input"
-                      type="file"
-                      ref={(ref: any) => {
-                        logo = ref;
-                      }}
-                      disabled={loading}
-                      onChange={e => {
-                        if (e.target.files[0]) {
-                          setLogoLabel(e.target.files[0].name);
-                        } else {
-                          setLogoLabel('');
-                        }
-                      }}
-                    />
-                    <span className="file-cta">
-                      <span className="file-icon">
-                        <i className="fas fa-upload"></i>
-                      </span>
-                      <span className="file-label">Choose a file…</span>
-                    </span>
-                    <span className="file-name">{logoLabel}</span>
-                  </label>
-                </div>
-              </div>
-            </div><br />
-
-            <div className="field">
-              <label className="label">Product Featured Image</label>
-              <div className="control">
-                <div className="file is-fullwidth has-name">
-                  <label className="file-label">
-                    <input
-                      className="file-input"
-                      type="file"
-                      ref={(ref: any) => {
-                        featured = ref;
-                      }}
-                      disabled={loading}
-                      onChange={e => {
-                        if (e.target.files[0]) {
-                          setFeaturedLabel(e.target.files[0].name);
-                        } else {
-                          setFeaturedLabel('');
-                        }
-                      }}
-                    />
-                    <span className="file-cta">
-                      <span className="file-icon">
-                        <i className="fas fa-upload"></i>
-                      </span>
-                      <span className="file-label">Choose a file…</span>
-                    </span>
-                    <span className="file-name">{featuredLabel}</span>
-                  </label>
-                </div>
-              </div>
-            </div><br />
-
-            <div className="field">
-              <label className="label">Attachments</label>
-              <div className="control">
-                <div className="file is-centered is-boxed">
-                  <label className="file-label">
-                    <input
-                      className="file-input"
-                      type="file" name="attachments"
-                      multiple
-                      ref={(ref: any) => {
-                        attachments = ref;
-                      }}
-                      disabled={loading}
-                      onChange={e => {
-                        if (e.target.files.length > 0) {
-                          setHasAttachments(true);
-                        } else {
-                          setHasAttachments(false);
-                        }
-                      }}
-                    />
-                    <span className="file-cta">
-                      <span className="file-icon">
-                        <i className="material-icons">cloud_upload</i>
-                      </span>
-                      <span className="file-label">Add Attachments...</span>
-                    </span>
-                  </label>
-                </div>
-              </div>
+            <div>
+              <label className="hedron-label">Features</label>
+              <CreatableSelect
+                instanceId="features"
+                isMulti
+                options={[]}
+                value={(response.getProductById.features as any[])}
+                isDisabled={loading}
+                onChange={(value) => {
+                  setFeatures(value);
+                }}
+              />
             </div>
+            <br />
 
+            <div>
+              <label className="hedron-label">Pricing</label>
+              <Select
+                instanceId="pricing"
+                isMulti
+                options={data.pricing}
+                isDisabled={loading}
+                onChange={(value: any[]) => {
+                  setPricing(value);
+                }}
+              />
+            </div>
+            <br />
+
+            <div>
+              <label className="hedron-label">Devices</label>
+              <Select
+                instanceId="devices"
+                isMulti
+                options={data.devices}
+                isDisabled={loading}
+                onChange={(value: any[]) => {
+                  setDevices(value);
+                }}
+              />
+            </div>
+            <br />
+
+            <div>
+              <label className="hedron-label">Categories</label>
+              <Select
+                instanceId="categories"
+                isMulti
+                options={data.categories}
+                isDisabled={loading}
+                onChange={(value: any[]) => {
+                  setCategories(value);
+                }}
+              />
+            </div>
+            <br />
+
+            <div>
+              <label className="hedron-label">Product Logo</label>
+              <FileUploaderButton
+                ref={(ref: any) => logo = ref}
+                onChange={e => {
+                  if (e.target.files[0]) {
+                    setHasLogo(true);
+                  } else {
+                    setHasLogo(false);
+                  }
+                }}
+              />
+            </div>
+            <br />
+
+            <div>
+              <label className="hedron-label">Product Featured Image</label>
+              <FileUploaderButton
+                ref={(ref: any) => featured = ref}
+                onChange={e => {
+                  if (e.target.files[0]) {
+                    setHasFeatured(true);
+                  } else {
+                    setHasFeatured(false);
+                  }
+                }}
+              />
+            </div>
+            <br />
+
+            <div>
+              <label className="hedron-label">Attachments</label>
+              <FileUploaderButton
+                multiple
+                labelText="Add files"
+                ref={(ref: any) => attachments = ref}
+                onChange={e => {
+                  if (e.target.files[0]) {
+                    setHasAttachments(true);
+                  } else {
+                    setHasAttachments(false);
+                  }
+                }}
+              />
+            </div>
+            <br />
           </div>
 
-          <div className="column">
-            <div className="field">
-              <label className="label">Product Description</label>
-              <div className="control">
-                <DynamicComponentWithNoSSR
-                  onContentChange={(value) => {
-                    setDescription(value);
-                  }}
-                />
-              </div>
-            </div><br />
-
+          <div className="bx--col">
             <ValueProp
               isDisabled={loading}
               onChange={(value: any[]) => {
@@ -274,26 +218,38 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
             <ProductPlan
               isDisabled={loading}
               onChange={(value: any[]) => {
+                console.log(value);
                 setPlans(value);
               }}
             />
 
           </div>
         </div>
+        <br/><br/>
 
-        <button
-          className={loading ? "button is-success is-pulled-right is-loading": "button is-success is-pulled-right"}
+        <div className="bx--row">
+          <DyanamicRichText
+            onContentChange={(value) => {
+              console.log(value);
+              setDescription(value);
+            }}
+          />
+        </div>
+
+        <br/><br/>
+
+        {!loading ? <Button
           disabled={
-            !name || !description || !logoLabel || !featuredLabel || values.length < 1 ||
+            !name || !summary || !description || !hasLogo || !hasFeatured || values.length < 1 ||
             features.length < 1 || pricing.length < 1 || devices.length < 1 || categories.length < 1 ||
-            plans.length < 1 || !hasAttachments || loading
+            plans.length < 1 || !hasAttachments
           }
           onClick={e => {
             setLoading(true);
 
-            const refLogo = (logo as unknown as HTMLInputElement);
-            const refFeatured = (featured as unknown as HTMLInputElement);
-            const refAttachments = (attachments as unknown as HTMLInputElement);
+            const refLogo = (logo as any).input;
+            const refFeatured = (featured as any).input;
+            const refAttachments = (attachments as any).input;
 
             const formData = new FormData();
             formData.append('logo', refLogo.files.item(0));
@@ -307,6 +263,7 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
             //     addProduct({
             //       variables: {
             //         name,
+            //         summary,
             //         description,
             //         values,
             //         features: features.map(({ label, value }) => ({ label, value })),
@@ -323,14 +280,23 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
             //       ]
             //     })
             //       .then(res => {
-            //         router.replace('/vendors/products');
+            //         toastr.success(
+            //           `Product with name ${name} has be added and pending Admin approval`,
+            //           'Product Addition'
+            //         )
+            //         router.push('/vendors/products');
             //       })
-            //       .catch(console.log);
+            //       .catch(error => {
+            //         toastr.error(
+            //           error.message,
+            //           'Product Addition'
+            //         )
+            //       });
             //   })
             //   .catch(error => console.log(error));
           }}
-        >Update Product</button>
-      </section>
+        >Update Product</Button> : <ButtonSkeleton />}
+      </div>
     </section>
   );
 }

@@ -1,7 +1,6 @@
 import { NextPage } from "next";
 import { useQuery } from "@apollo/client";
 import {
-  InlineLoading,
   InlineNotification,
   DataTable,
   TableContainer,
@@ -22,6 +21,12 @@ import withDefaultLayout from "../../../layouts/DefaultLayout";
 import { GET_LEADS } from "../../../graphql/queries";
 import { NextPageProps } from "../../../utils/PropTypes";
 import { DemoRequestType, DemoRequestFilter } from '../../../utils/interfaces';
+import dynamic from "next/dynamic";
+
+const DyanamicInlineLoading = dynamic(
+  () => import('../../../components/Loading'),
+  { ssr: false }
+);
 
 const headerData = [
   {
@@ -49,14 +54,12 @@ const Dashboard: NextPage<NextPageProps> = ({ user }) => {
   );
 
   if (loading) {
-    return <InlineLoading id="leads-loading" description="Fetching Your Leads..." />;
+    return <DyanamicInlineLoading description="Fetching Your Leads..." />;
   }
 
   if (error) {
     return <InlineNotification title={error.message} kind="error" />;
   }
-
-  console.log(data);
 
   return (
     <DataTable

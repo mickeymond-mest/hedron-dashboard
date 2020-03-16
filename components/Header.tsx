@@ -23,7 +23,7 @@ const AppHeader: NextComponentType = () => {
   const [hidePanel, setHidePanel] = useState(true);
 
   return (
-    <Header style={{ backgroundColor: "#237586" }} aria-label="Hedron Dashboard">
+    <Header aria-label="Hedron Dashboard">
       <SkipToContent />
       <HeaderName href="/" prefix="Hedron">
         Dashboard
@@ -48,7 +48,7 @@ const AppHeader: NextComponentType = () => {
       </HeaderGlobalBar>
       <HeaderPanel
         aria-label="Header Panel"
-        style={{ backgroundColor: "#237586" }} hidden={hidePanel}
+        hidden={hidePanel}
         expanded>
           <Switcher
             aria-label="Main Switcher">

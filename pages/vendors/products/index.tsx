@@ -20,12 +20,17 @@ import {
   TableBody,
   TableSelectRow,
   TableCell,
-  InlineLoading,
   InlineNotification,
   OverflowMenu,
   OverflowMenuItem
 } from "carbon-components-react";
 import Router from "next/router";
+import dynamic from "next/dynamic";
+
+const DyanamicInlineLoading = dynamic(
+  () => import('../../../components/Loading'),
+  { ssr: false }
+);
 
 const headerData = [
   {
@@ -37,13 +42,17 @@ const headerData = [
     key: 'summary',
   },
   {
+    header: 'Archived',
+    key: 'archived',
+  },
+  {
     header: 'Status',
     key: 'status',
   }
 ];
 
 const ProductsIndex: NextPage<NextPageProps> = ({ user }) => {
-  const { loading, error, data, refetch } = useQuery<{ products: ProductType[] }, ProductFilter>(
+  const { loading, error, data } = useQuery<{ products: ProductType[] }, ProductFilter>(
     GET_PRODUCTS,
     { variables: { userId: user.sub }, pollInterval: 5000 }
   );
@@ -86,7 +95,7 @@ const ProductsIndex: NextPage<NextPageProps> = ({ user }) => {
   }
 
   if (loading) {
-    return <InlineLoading id="products-loading" description="Fetching Your Products..." />;
+    return <DyanamicInlineLoading description="Fetching Your Products..." />;
   }
 
   if (error) {
@@ -96,7 +105,11 @@ const ProductsIndex: NextPage<NextPageProps> = ({ user }) => {
   return (
     <section className="section">
       <DataTable
-        rows={(data.products.map(product => ({ ...product, id: product._id })) as any[])}
+        rows={(data.products.map(product => ({
+          ...product,
+          id: product._id,
+          archived: String(product.archived).toUpperCase()
+        })) as any[])}
         headers={headerData}
         render={({ rows, headers, getHeaderProps, getSelectionProps, getRowProps }) => (
           <TableContainer title="All Products">

@@ -29,7 +29,7 @@ import {
 const DyanamicRichText = dynamic(
   () => import('../../../components/RichText'),
   { ssr: false }
-)
+);
 
 const ProductsCreate: NextPage<NextPageProps> = ({ user }) => {
   const [loading, setLoading] = useState(false);

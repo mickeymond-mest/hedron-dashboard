@@ -6,7 +6,13 @@ import { ProductType } from "../../../utils/interfaces";
 import { GET_PRODUCT_BY_ID } from "../../../graphql/queries";
 import { NextPageProps } from "../../../utils/PropTypes";
 import { withRouter } from "next/router";
-import { InlineLoading, InlineNotification } from "carbon-components-react";
+import { InlineNotification } from "carbon-components-react";
+import dynamic from "next/dynamic";
+
+const DyanamicInlineLoading = dynamic(
+  () => import('../../../components/Loading'),
+  { ssr: false }
+);
 
 const ProdcutDetail: NextPage<NextPageProps> = ({ user, router }) => {
   const { loading, error, data } = useQuery<{ getProductById: ProductType }, { productId: string }>(
@@ -15,7 +21,7 @@ const ProdcutDetail: NextPage<NextPageProps> = ({ user, router }) => {
   );
 
   if (loading) {
-    return <InlineLoading id="products-loading" description="Getting Product..." />;
+    return <DyanamicInlineLoading description="Getting Product..." />;
   }
 
   if (error) {

@@ -1,6 +1,8 @@
 @import '../node_modules/carbon-components/css/carbon-components.css';
-@import '../node_modules/draft-js/dist/Draft.css';
-@import '../node_modules/draft-js-inline-toolbar-plugin/lib/plugin.css';
+
+.bx--header, .bx--header-panel {
+  background-color: #237586 !important;
+}
 
 .hedron-label {
   display: block;
