@@ -1,5 +1,6 @@
 @import '../node_modules/carbon-components/css/carbon-components.css';
 @import '../node_modules/draft-js/dist/Draft.css';
+@import '../node_modules/draft-js-inline-toolbar-plugin/lib/plugin.css';
 
 .hedron-label {
   display: block;
@@ -14,20 +15,20 @@
   clear: both;
 }
 
-div.DraftEditor-root {
+.editor {
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  cursor: text;
+  padding: 16px;
+  border-radius: 2px;
+  margin-bottom: 2em;
+  box-shadow: inset 0px 1px 8px -3px #ABABAB;
+  background: #fefefe;
   background-color: #F4F4F4;
   width:100%;
   margin: 20px auto;
-  height:300px;
-  overflow-y: scroll;
-  padding:20px;
-  font-size: 18px;
-  // font-family: 'calibri', sans-serif;
 }
 
-.rich-editor-header {
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
+.editor :global(.public-DraftEditor-content) {
+  min-height: 200px;
 }

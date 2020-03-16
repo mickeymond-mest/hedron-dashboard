@@ -1,12 +1,27 @@
+// @ts-nocheck
+
 import { useState, Fragment } from 'react';
 import { NextComponentType } from 'next';
 
-import { Editor, EditorState, RichUtils } from 'draft-js';
-import { Button } from 'carbon-components-react';
+import { EditorState } from 'draft-js';
+import Editor from 'draft-js-plugins-editor';
+// import createEditorStateWithText from 'draft-js-plugins-editor/lib/utils/createEditorStateWithText';
+import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin';
+import { stateToHTML } from 'draft-js-export-html';
+import {
+  ItalicButton,
+  BoldButton,
+  UnderlineButton,
+  HeadlineOneButton,
+  HeadlineTwoButton,
+  HeadlineThreeButton,
+  UnorderedListButton,
+  OrderedListButton,
+} from 'draft-js-buttons';
 
-import TextBold32 from '@carbon/icons-react/es/text--bold/32';
-import TextItalic32 from '@carbon/icons-react/es/text--italic/32';
-import TextUnderline32 from '@carbon/icons-react/es/text--underline/32';
+const InlineToolbarPlugin = createInlineToolbarPlugin();
+const { InlineToolbar } = InlineToolbarPlugin;
+const plugins = [InlineToolbarPlugin];
 
 type RichTextProps = {
   onContentChange: Function;
@@ -15,44 +30,39 @@ type RichTextProps = {
 const RichText: NextComponentType<any, any, RichTextProps> = ({ onContentChange }) => {
   const [content, setContent] = useState(EditorState.createEmpty());
 
-  const setFormat = (format: string) => {
-    setContent(RichUtils.toggleInlineStyle(content, format));
-  }
-
   return (
     <Fragment>
       <div className="bx--row">
         <div className="bx--col">
           <label className="hedron-label">Full Product Description</label>
         </div>
-        <div className="bx--col">
-          <Button
-            hasIconOnly
-            iconDescription="text--bold"
-            renderIcon={props => <TextBold32 {...props} />}
-            onClick={() => setFormat('BOLD')}
-          />
-          <Button
-            hasIconOnly
-            iconDescription="text--italic"
-            renderIcon={props => <TextItalic32 {...props} />}
-            onClick={() => setFormat('ITALIC')}
-          />
-          <Button
-            hasIconOnly
-            iconDescription="text--underline"
-            renderIcon={props => <TextUnderline32 {...props} />}
-            onClick={() => setFormat('UNDERLINE')}
-          />
-        </div>
       </div>
-      <Editor
-        editorState={content}
-        onChange={editorContent => {
-          onContentChange(editorContent.getCurrentContent().getPlainText());
-          setContent(editorContent);
-        }}
-      />
+      <div className="editor">
+        <Editor
+          editorState={content}
+          onChange={editorContent => {
+            onContentChange(stateToHTML(editorContent.getCurrentContent()));
+            setContent(editorContent);
+          }}
+          plugins={plugins}
+        />
+        <InlineToolbar>
+          {
+            externalProps => (
+              <Fragment>
+                <ItalicButton {...externalProps} />
+                <BoldButton {...externalProps} />
+                <UnderlineButton {...externalProps} />
+                <UnorderedListButton {...externalProps} />
+                <HeadlineOneButton {...externalProps} />
+                <HeadlineTwoButton {...externalProps} />
+                <HeadlineThreeButton {...externalProps} />
+                <OrderedListButton {...externalProps} />
+              </Fragment>
+            )
+          }
+        </InlineToolbar>
+      </div>
     </Fragment>
   );
 }
