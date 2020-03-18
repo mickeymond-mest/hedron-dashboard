@@ -1,5 +1,9 @@
 @import '../node_modules/carbon-components/css/carbon-components.css';
 
+a {
+  text-decoration: none;
+}
+
 .bx--header, .bx--header-panel {
   background-color: #237586 !important;
 }

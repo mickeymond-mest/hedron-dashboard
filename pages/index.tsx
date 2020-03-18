@@ -1,25 +1,17 @@
 import { NextPage } from "next";
 
 import withDefaultLayout from "../layouts/DefaultLayout";
+import { NextPageProps } from "../utils/PropTypes";
+import { withRouter } from "next/router";
+import IndexComponent from "../components/IndexComponent";
+import GettingStarted from "../components/GettingStarted";
 
-const Index: NextPage<{}> = (props) => {
+const Index: NextPage<NextPageProps> = (props) => {
   return (
     <section className="section">
-      <section className="section">
-        <div className="card">
-          <div className="card-content">
-            <p className="title">Welcome To Hedron</p>
-            <br/>
-            <p className="subtitle">
-              <a href="https://hedron.now.sh">
-                Go Find the Prodcut You Want
-              </a>
-            </p>
-          </div>
-        </div>
-      </section>
+      {props.role ? <IndexComponent /> : <GettingStarted />}
     </section>
   );
 }
 
-export default withDefaultLayout(Index);
+export default withDefaultLayout(withRouter(Index));

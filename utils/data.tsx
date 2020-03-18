@@ -30,70 +30,70 @@ export const links = {
     {
       label: "Dashboard",
       icon: "dashboard",
-      link: "/vendors/dashboard",
-      as: "/vendors/dashboard",
+      link: "/vendor/dashboard",
+      as: "/vendor/dashboard",
       subs: []
     },
     {
       label: "Inbox",
       icon: "inbox",
-      link: "/vendors/inbox",
-      as: "/vendors/inbox",
+      link: "/vendor/inbox",
+      as: "/vendor/inbox",
       subs: []
     },
     {
       label: "Products",
       icon: "verified_user",
-      link: "/vendors/products",
-      as: "/vendors/products",
+      link: "/vendor/products",
+      as: "/vendor/products",
       subs: [
         {
           label: "All Products",
           icon: "verified_user",
-          link: "/vendors/products",
-          as: "/vendors/products"
+          link: "/vendor/products",
+          as: "/vendor/products"
         },
         {
           label: "Add Product",
           icon: "add",
-          link: "/vendors/products/create",
-          as: "/vendors/products/create"
+          link: "/vendor/products/create",
+          as: "/vendor/products/create"
         },
       ]
     },
     {
       label: "My Leads",
       icon: "perm_identity",
-      link: "/vendors/leads",
-      as: "/vendors/leads",
+      link: "/vendor/leads",
+      as: "/vendor/leads",
       subs: [
         {
           label: "All Leads",
           icon: "add",
-          link: "/vendors/leads",
-          as: "/vendors/leads"
+          link: "/vendor/leads",
+          as: "/vendor/leads"
         },
       ]
     },
     {
       label: "Chat Room",
       icon: "chat",
-      link: "/vendors/chat",
-      as: "/vendors/chat",
+      link: "/vendor/chat",
+      as: "/vendor/chat",
       subs: []
     },
     {
       label: "Help Center",
       icon: "help",
-      link: "/vendors/help",
-      as: "/vendors/help",
+      link: "/vendor/help",
+      as: "/vendor/help",
       subs: []
     },
     {
       label: "Settings",
       icon: "settings",
-      link: "/vendors/settings",
-      as: "/vendors/settings",
+      link: "/vendor/settings",
+      as: "/vendor/settings",
       subs: []
     },
   ],
@@ -120,10 +120,10 @@ export const links = {
       ]
     },
     {
-      label: "Vendors",
+      label: "Vendor",
       icon: "perm_identity",
-      link: "/admin/vendors",
-      as: "/admin/vendors",
+      link: "/admin/vendor",
+      as: "/admin/vendor",
       subs: []
     },
     {

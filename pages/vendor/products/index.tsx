@@ -38,10 +38,6 @@ const headerData = [
     key: 'name',
   },
   {
-    header: 'Summary',
-    key: 'summary',
-  },
-  {
     header: 'Archived',
     key: 'archived',
   },
@@ -137,13 +133,13 @@ const ProductsIndex: NextPage<NextPageProps> = ({ user }) => {
                         <OverflowMenuItem
                           itemText="View"
                           onClick={() => {
-                            Router.push(`/vendors/products/${row.id}`);
+                            Router.push(`/vendor/products/${row.id}`);
                           }}
                         />
                         <OverflowMenuItem
                           itemText="Edit"
                           onClick={() => {
-                            Router.push(`/vendors/products/${row.id}/edit`);
+                            Router.push(`/vendor/products/${row.id}/edit`);
                           }}
                         />
                         {renderArchived(row.id)}

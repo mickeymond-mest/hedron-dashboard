@@ -1,42 +1,37 @@
 import { NextPage } from "next";
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
-import { withRouter } from "next/router";
+import Router from "next/router";
+import dynamic from 'next/dynamic';
+import toastr from 'toastr';
 
-import { useState, createRef } from "react";
-import { useMutation, useQuery } from "@apollo/client";
+import { useState, createRef, LegacyRef } from "react";
+import { useMutation } from "@apollo/client";
 
-import { ADD_PRODUCT } from "../../../../graphql/mutations";
+import { ADD_PRODUCT } from "../../../graphql/mutations";
 
-import withDefaultLayout from "../../../../layouts/DefaultLayout";
-import ProductPlan from "../../../../components/ProductPlan";
+import withDefaultLayout from "../../../layouts/DefaultLayout";
+import ProductPlan from "../../../components/ProductPlan";
 
-import { NextPageProps } from '../../../../utils/PropTypes';
-import * as data from '../../../../utils/data';
+import { NextPageProps } from '../../../utils/PropTypes';
+import * as data from '../../../utils/data';
 import axios from 'axios';
-import { ProductInput, ProductType } from "../../../../utils/interfaces";
-import { GET_PRODUCT_BY_ID } from "../../../../graphql/queries";
-import ValueProp from "../../../../components/ValueProp";
-import dynamic from "next/dynamic";
+import { ProductInput, ProductType } from "../../../utils/interfaces";
+import { GET_PRODUCTS } from "../../../graphql/queries";
+import ValueProp from "../../../components/ValueProp";
 import {
   TextInput,
   FileUploaderButton,
   Button,
   ButtonSkeleton,
-  InlineNotification
 } from "carbon-components-react";
 
 const DyanamicRichText = dynamic(
-  () => import('../../../../components/RichText'),
+  () => import('../../../components/RichText'),
   { ssr: false }
 );
 
-const DyanamicInlineLoading = dynamic(
-  () => import('../../../../components/Loading'),
-  { ssr: false }
-);
-
-const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
+const ProductsCreate: NextPage<NextPageProps> = ({ user }) => {
   const [loading, setLoading] = useState(false);
 
   const [name, setName] = useState('');
@@ -58,20 +53,7 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
   let featured = createRef();
   let attachments = createRef();
 
-  const { loading: fetching, error, data: response } = useQuery<{ getProductById: ProductType }, { productId: string }>(
-    GET_PRODUCT_BY_ID,
-    { variables: { productId: (router.query.id as string) } }
-  );
-
-  // const [addProduct] = useMutation<{ addProduct: ProductType }, ProductInput>(ADD_PRODUCT);
-
-  if (fetching) {
-    return <DyanamicInlineLoading description="Get the Product..." />;
-  }
-
-  if (error) {
-    return <InlineNotification title={error.message} kind="error" />;
-  }
+  const [addProduct] = useMutation<{ addProduct: ProductType }, ProductInput>(ADD_PRODUCT);
 
   return (
     <section>
@@ -85,7 +67,6 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
             <TextInput
               id="name"
               labelText="Product Name"
-              defaultValue={response.getProductById.name}
               onChange={e => {
                 setName(e.target.value);
               }}
@@ -95,7 +76,6 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
             <TextInput
               id="summary"
               labelText="Product Summary"
-              defaultValue={response.getProductById.summary}
               onChange={e => {
                 setSummary(e.target.value);
               }}
@@ -108,7 +88,6 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
                 instanceId="features"
                 isMulti
                 options={[]}
-                value={(response.getProductById.features as any[])}
                 isDisabled={loading}
                 onChange={(value) => {
                   setFeatures(value);
@@ -258,47 +237,47 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
               formData.append('attachments', refAttachments.files.item(i));
             }
 
-            // axios.post(`${process.env.REST_ENDPOINT}/products/uploads`, formData)
-            //   .then(({ data }) => {
-            //     addProduct({
-            //       variables: {
-            //         name,
-            //         summary,
-            //         description,
-            //         values,
-            //         features: features.map(({ label, value }) => ({ label, value })),
-            //         pricing,
-            //         devices,
-            //         categories,
-            //         plans,
-            //         logo: data.logo,
-            //         featured: data.featured,
-            //         attachments: data.attachments,
-            //       },
-            //       refetchQueries: [
-            //         { query: GET_PRODUCTS, variables: { userId: user.sub } }
-            //       ]
-            //     })
-            //       .then(res => {
-            //         toastr.success(
-            //           `Product with name ${name} has be added and pending Admin approval`,
-            //           'Product Addition'
-            //         )
-            //         router.push('/vendors/products');
-            //       })
-            //       .catch(error => {
-            //         toastr.error(
-            //           error.message,
-            //           'Product Addition'
-            //         )
-            //       });
-            //   })
-            //   .catch(error => console.log(error));
+            axios.post(`${process.env.REST_ENDPOINT}/products/uploads`, formData)
+              .then(({ data }) => {
+                addProduct({
+                  variables: {
+                    name,
+                    summary,
+                    description,
+                    values,
+                    features: features.map(({ label, value }) => ({ label, value })),
+                    pricing,
+                    devices,
+                    categories,
+                    plans,
+                    logo: data.logo,
+                    featured: data.featured,
+                    attachments: data.attachments,
+                  },
+                  refetchQueries: [
+                    { query: GET_PRODUCTS, variables: { userId: user.sub } }
+                  ]
+                })
+                  .then(res => {
+                    toastr.success(
+                      `Product with name ${name} has be added and pending Admin approval`,
+                      'Product Addition'
+                    )
+                    Router.push('/vendor/products');
+                  })
+                  .catch(error => {
+                    toastr.error(
+                      error.message,
+                      'Product Addition'
+                    )
+                  });
+              })
+              .catch(error => console.log(error));
           }}
-        >Update Product</Button> : <ButtonSkeleton />}
+        >Add Product</Button> : <ButtonSkeleton />}
       </div>
     </section>
   );
 }
 
-export default withDefaultLayout(withRouter(ProductsEdit));
+export default withDefaultLayout(ProductsCreate);

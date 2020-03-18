@@ -9,4 +9,6 @@ type User = {
 
 export interface NextPageProps extends WithRouterProps {
   user: User;
+  role: string;
+  authenticated: boolean;
 }
