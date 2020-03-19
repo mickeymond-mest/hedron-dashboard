@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState } from "react";
 import { NextComponentType } from "next";
 import { Button, Tile, TextInput, DataTable, TableContainer, Table, TableHead, TableRow, TableHeader, TableBody, TableCell } from "carbon-components-react";
 
@@ -9,8 +9,8 @@ type ValuePropProps = {
 
 const ValueProp: NextComponentType<any, any, ValuePropProps> = (props) => {
   const [values, setValues] =  useState([]);
-  const [name, setName] =  useState('');
-  const [description, setDescription] =  useState('');
+  const [name, setName] =  useState('Automated Reminders');
+  const [description, setDescription] =  useState('Send your sales agent reminders');
 
   return (
     <Tile>

@@ -22,8 +22,8 @@ type ProductPlanProps = {
 
 const ProductPlan: NextComponentType<any, any, ProductPlanProps> = (props) => {
   const [plans, setPlans] =  useState([]);
-  const [name, setName] =  useState('');
-  const [price, setPrice] =  useState('');
+  const [name, setName] =  useState('Free Trial');
+  const [price, setPrice] =  useState('23.34');
   const [features, setFeatures] =  useState([]);
 
   return (
@@ -67,7 +67,7 @@ const ProductPlan: NextComponentType<any, any, ProductPlanProps> = (props) => {
 
       <Button
         className="add-btn"
-        disabled={!name || !price || !features.length}
+        disabled={!name || !price || !features}
         onClick={(e) => {
           const newPlans = [
             ...plans,

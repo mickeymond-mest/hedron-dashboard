@@ -66,6 +66,7 @@ const ProductsCreate: NextPage<NextPageProps> = ({ user }) => {
             <br />
             <TextInput
               id="name"
+              defaultValue="AgileCRM"
               labelText="Product Name"
               onChange={e => {
                 setName(e.target.value);
@@ -75,6 +76,7 @@ const ProductsCreate: NextPage<NextPageProps> = ({ user }) => {
 
             <TextInput
               id="summary"
+              defaultValue="AgileCRM is the an easy to  use product to grow revenue"
               labelText="Product Summary"
               onChange={e => {
                 setSummary(e.target.value);

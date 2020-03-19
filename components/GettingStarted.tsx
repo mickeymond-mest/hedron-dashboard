@@ -1,5 +1,10 @@
 import { Fragment, useState } from "react";
 import { TextInput, Button } from 'carbon-components-react';
+import { useMutation } from "@apollo/client";
+import toastr from 'toastr';
+
+import { ADD_VENDOR } from "../graphql/mutations";
+import { VendorType, VendorInput } from "../utils/interfaces";
 
 const GettingStarted = () => {
   const [name, setName] = useState('');
@@ -8,8 +13,10 @@ const GettingStarted = () => {
   const [twitter, setTwitter] = useState('');
   const [contact, setContact] = useState('');
   const [facebook, setFacebook] = useState('');
-  const [linkedin, setLinkedIn] = useState('');
+  const [linkedIn, setLinkedIn] = useState('');
   const [founded, setFounded] = useState('');
+
+  const [addVendor] = useMutation<{ addVendor: VendorType }, VendorInput>(ADD_VENDOR);
 
   return (
     <Fragment>
@@ -98,7 +105,20 @@ const GettingStarted = () => {
         <div className="bx--row">
           <div className="bx--col">
             <Button
-              disabled={!name || !website || !location || !twitter || !contact || !facebook || !linkedin || !founded}
+              disabled={!name || !website || !location || !twitter || !contact || !facebook || !linkedIn || !founded}
+              onClick={() => {
+                addVendor({
+                  variables: { name, contact, website, facebook, location, linkedIn, twitter, founded }
+                })
+                .then(result => {
+                  toastr.success('Vendor Successfully Added', 'Vendor Addtion Success');
+                  console.log(result.errors);
+                })
+                .catch(error => {
+                  console.log(JSON.stringify(error, null, 2));
+                  toastr.error(error.message, 'Vendor Addition Error');
+                })
+              }}
             >Complete Registration</Button>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <a href="https://hedron.now.sh">
