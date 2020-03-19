@@ -1,8 +1,4 @@
-@import '../node_modules/carbon-components/css/carbon-components.css';
-
-a {
-  text-decoration: none;
-}
+@import '../node_modules/carbon-components/scss/globals/scss/styles.scss';
 
 .bx--header, .bx--header-panel {
   background-color: #237586 !important;
@@ -33,4 +29,8 @@ a {
 
 .editor :global(.public-DraftEditor-content) {
   min-height: 300px;
+}
+
+a {
+  text-decoration: none;
 }
