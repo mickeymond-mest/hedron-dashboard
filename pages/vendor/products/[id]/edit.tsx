@@ -15,7 +15,7 @@ import { NextPageProps } from '../../../../utils/PropTypes';
 import * as data from '../../../../utils/data';
 import axios from 'axios';
 import { ProductInput, ProductType } from "../../../../utils/interfaces";
-import { GET_PRODUCT_BY_ID } from "../../../../graphql/queries";
+import { PRODUCT_BY_ID } from "../../../../graphql/queries";
 import ValueProp from "../../../../components/ValueProp";
 import dynamic from "next/dynamic";
 import {
@@ -58,8 +58,8 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
   let featured = createRef();
   let attachments = createRef();
 
-  const { loading: fetching, error, data: response } = useQuery<{ getProductById: ProductType }, { productId: string }>(
-    GET_PRODUCT_BY_ID,
+  const { loading: fetching, error, data: response } = useQuery<{ productById: ProductType }, { productId: string }>(
+    PRODUCT_BY_ID,
     { variables: { productId: (router.query.id as string) } }
   );
 
@@ -85,7 +85,7 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
             <TextInput
               id="name"
               labelText="Product Name"
-              defaultValue={response.getProductById.name}
+              defaultValue={response.productById.name}
               onChange={e => {
                 setName(e.target.value);
               }}
@@ -95,7 +95,7 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
             <TextInput
               id="summary"
               labelText="Product Summary"
-              defaultValue={response.getProductById.summary}
+              defaultValue={response.productById.summary}
               onChange={e => {
                 setSummary(e.target.value);
               }}
@@ -108,7 +108,7 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
                 instanceId="features"
                 isMulti
                 options={[]}
-                value={(response.getProductById.features as any[])}
+                value={(response.productById.features as any[])}
                 isDisabled={loading}
                 onChange={(value) => {
                   setFeatures(value);

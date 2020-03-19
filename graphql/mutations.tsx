@@ -2,18 +2,18 @@ import { gql } from '@apollo/client';
 
 export const ADD_PRODUCT = gql`
   mutation AddProduct(
-    $name: String!
-    $summary: String!
-    $description: String!
-    $values: [ValueInput!]!
-    $features: [SelectableInput!]!
-    $pricing: [SelectableInput!]!
-    $devices: [SelectableInput!]!
-    $categories: [SelectableInput!]!
-    $plans: [PlanInput!]!
-    $logo: AttachmentInput!
-    $featured: AttachmentInput!
-    $attachments: [AttachmentInput!]!
+    $name: String
+    $summary: String
+    $description: String
+    $values: [ValueInput!]
+    $features: [SelectableInput!]
+    $pricing: [SelectableInput!]
+    $devices: [SelectableInput!]
+    $categories: [SelectableInput!]
+    $plans: [PlanInput!]
+    $logo: AttachmentInput
+    $featured: AttachmentInput
+    $attachments: [AttachmentInput!]
   ) {
     addProduct(
       product: {
@@ -56,13 +56,15 @@ export const RESTORE_PRODUCT = gql`
   }
 `;
 
-export const UPDATE_STATUS = gql`
-  mutation UpdateStatus(
-    $status: String!
+export const UPDATE_PRODUCT = gql`
+  mutation UpdateProduct(
+    $status: String
     $productId: String!
   ) {
-    updateStatus(
-      status: $status,
+    updateProduct(
+      update: {
+        status: $status
+      },
       productId: $productId
     ) {
       _id

@@ -18,7 +18,7 @@ import {
 import Router from "next/router";
 
 import withDefaultLayout from "../../../layouts/DefaultLayout";
-import { GET_LEADS } from "../../../graphql/queries";
+import { All_DEMO_REQUESTS } from "../../../graphql/queries";
 import { NextPageProps } from "../../../utils/PropTypes";
 import { DemoRequestType, DemoRequestFilter } from '../../../utils/interfaces';
 import dynamic from "next/dynamic";
@@ -48,8 +48,8 @@ const headerData = [
 ];
 
 const Dashboard: NextPage<NextPageProps> = ({ user }) => {
-  const { loading, error, data } = useQuery<{ demoRequests: DemoRequestType[] }, DemoRequestFilter>(
-    GET_LEADS,
+  const { loading, error, data } = useQuery<{ allDemoRequests: DemoRequestType[] }, DemoRequestFilter>(
+    All_DEMO_REQUESTS,
     { variables: { receiver: user.sub } }
   );
 
@@ -63,7 +63,7 @@ const Dashboard: NextPage<NextPageProps> = ({ user }) => {
 
   return (
     <DataTable
-        rows={(data.demoRequests.map(lead => ({ ...lead, id: lead._id })) as any[])}
+        rows={(data.allDemoRequests.map(lead => ({ ...lead, id: lead._id })) as any[])}
         headers={headerData}
         render={({ rows, headers, getHeaderProps, getSelectionProps, getRowProps }) => (
           <TableContainer title="All Leads">
@@ -91,13 +91,13 @@ const Dashboard: NextPage<NextPageProps> = ({ user }) => {
                         <OverflowMenuItem
                           itemText="View"
                           onClick={() => {
-                            Router.push(`/vendors/products/${row.id}`);
+                            // Router.push(`/vendors/products/${row.id}`);
                           }}
                         />
                         <OverflowMenuItem
                           itemText="Edit"
                           onClick={() => {
-                            Router.push(`/vendors/products/${row.id}/edit`);
+                            // Router.push(`/vendors/products/${row.id}/edit`);
                           }}
                         />
                       </OverflowMenu>

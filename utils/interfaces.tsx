@@ -1,11 +1,3 @@
-// Personal Interfaces
-export interface UpdateStatusInput {
-  status: string;
-  productId: string;
-}
-
-
-
 
 /** ------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
@@ -15,10 +7,15 @@ export interface UpdateStatusInput {
 /* tslint:disable */
 /* eslint-disable */
 export interface AttachmentInput {
-  filename: string;
-  url: string;
-  mimetype: string;
-  size: number;
+  filename?: string;
+  url?: string;
+  mimetype?: string;
+  size?: number;
+}
+
+export interface ChatInput {
+  message: string;
+  sessionId?: string;
 }
 
 export interface DemoRequestFilter {
@@ -41,9 +38,9 @@ export interface DemoRequestInput {
 }
 
 export interface PlanInput {
-  name: string;
-  price: string;
-  features: SelectableInput[];
+  name?: string;
+  price?: string;
+  features?: SelectableInput[];
 }
 
 export interface ProductFilter {
@@ -53,18 +50,19 @@ export interface ProductFilter {
 }
 
 export interface ProductInput {
-  name: string;
-  summary: string;
-  description: string;
-  values: ValueInput[];
-  features: SelectableInput[];
-  pricing: SelectableInput[];
-  devices: SelectableInput[];
-  categories: SelectableInput[];
-  plans: PlanInput[];
-  logo: AttachmentInput;
-  featured: AttachmentInput;
-  attachments: AttachmentInput[];
+  status?: string;
+  name?: string;
+  summary?: string;
+  description?: string;
+  values?: ValueInput[];
+  features?: SelectableInput[];
+  pricing?: SelectableInput[];
+  devices?: SelectableInput[];
+  categories?: SelectableInput[];
+  plans?: PlanInput[];
+  logo?: AttachmentInput;
+  featured?: AttachmentInput;
+  attachments?: AttachmentInput[];
 }
 
 export interface SearchQueryInput {
@@ -72,13 +70,24 @@ export interface SearchQueryInput {
 }
 
 export interface SelectableInput {
-  label: string;
-  value: string;
+  label?: string;
+  value?: string;
 }
 
 export interface ValueInput {
-  name: string;
-  description: string;
+  name?: string;
+  description?: string;
+}
+
+export interface VendorInput {
+  name?: string;
+  contact?: string;
+  website?: string;
+  facebook?: string;
+  location?: string;
+  linkedIn?: string;
+  twitter?: string;
+  founded?: string;
 }
 
 export interface AttachmentType {
@@ -89,8 +98,13 @@ export interface AttachmentType {
   size: number;
 }
 
+export interface ChatType {
+  sessionId: string;
+  output: OutputType;
+}
+
 export interface DemoRequestType {
-  _id?: string;
+  _id: string;
   sender: string;
   receiver: string;
   productId: string;
@@ -105,13 +119,37 @@ export interface DemoRequestType {
   message: string;
 }
 
+export interface EntityType {
+  productId: string;
+}
+
+export interface GenericType {
+  response_type: string;
+  text: string;
+}
+
+export interface IntentType {
+  intent: string;
+  confidence: number;
+}
+
 export interface IMutation {
   addProduct(product: ProductInput): ProductType | Promise<ProductType>;
   archiveProduct(productId: string): ProductType | Promise<ProductType>;
   restoreProduct(productId: string): ProductType | Promise<ProductType>;
   deleteProduct(productId: string): ProductType | Promise<ProductType>;
-  updateStatus(status: string, productId: string): ProductType | Promise<ProductType>;
-  requestDemo(demo: DemoRequestInput): DemoRequestType | Promise<DemoRequestType>;
+  updateProduct(update: ProductInput, productId: string): ProductType | Promise<ProductType>;
+  addDemoRequest(demo: DemoRequestInput): DemoRequestType | Promise<DemoRequestType>;
+  askQuestion(chat: ChatInput): ChatType | Promise<ChatType>;
+  addVendor(vendor: VendorInput): VendorType | Promise<VendorType>;
+  updateVendor(update: VendorInput, vendorId: string): VendorType | Promise<VendorType>;
+  deleteVendor(vendorId: string): VendorType | Promise<VendorType>;
+}
+
+export interface OutputType {
+  generic: GenericType[];
+  intents: IntentType[];
+  entities: EntityType[];
 }
 
 export interface PlanType {
@@ -128,6 +166,7 @@ export interface ProductType {
   status: string;
   archived: boolean;
   name: string;
+  slug: string;
   summary: string;
   description: string;
   values: ValueType[];
@@ -143,10 +182,11 @@ export interface ProductType {
 
 export interface IQuery {
   searchProducts(searchQueryInput: SearchQueryInput): ProductType[] | Promise<ProductType[]>;
-  getProductByName(productName: string): ProductType | Promise<ProductType>;
-  products(filter: ProductFilter): ProductType[] | Promise<ProductType[]>;
-  getProductById(productId: string): ProductType | Promise<ProductType>;
-  demoRequests(filter: DemoRequestFilter): DemoRequestType[] | Promise<DemoRequestType[]>;
+  productByName(productName: string): ProductType | Promise<ProductType>;
+  allProducts(filter: ProductFilter): ProductType[] | Promise<ProductType[]>;
+  productById(productId: string): ProductType | Promise<ProductType>;
+  allDemoRequests(filter: DemoRequestFilter): DemoRequestType[] | Promise<DemoRequestType[]>;
+  allVendors(): VendorType[] | Promise<VendorType[]>;
 }
 
 export interface SelectableType {
@@ -155,12 +195,21 @@ export interface SelectableType {
   value: string;
 }
 
-export interface ISubscription {
-  productUpdated(productId: string): string | Promise<string>;
-}
-
 export interface ValueType {
   _id: string;
   name?: string;
   description?: string;
+}
+
+export interface VendorType {
+  _id: string;
+  userId: string;
+  name: string;
+  contact: string;
+  website: string;
+  facebook: string;
+  location: string;
+  linkedIn: string;
+  twitter: string;
+  founded: string;
 }
