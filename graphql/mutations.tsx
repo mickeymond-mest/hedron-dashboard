@@ -71,3 +71,32 @@ export const UPDATE_PRODUCT = gql`
     }
   }
 `;
+
+export const ADD_VENDOR = gql`
+  mutation AddVendor(
+    $name: String
+    $contact: String
+    $website: String
+    $facebook: String
+    $location: String
+    $linkedIn: String
+    $twitter: String
+    $founded: String
+  ) {
+    addVendor(
+      vendor: {
+        name: $name
+        contact: $contact
+        website: $website
+        facebook: $facebook
+        location: $location
+        linkedIn: $linkedIn
+        twitter: $twitter
+        founded: $founded
+      }
+    ) {
+      _id
+      userId
+    }
+  }
+`;
