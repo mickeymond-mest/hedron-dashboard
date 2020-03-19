@@ -5,11 +5,11 @@ import toastr from 'toastr';
 
 import withDefaultLayout from "../../../layouts/DefaultLayout";
 
-import { GET_PRODUCTS } from "../../../graphql/queries";
-import { UPDATE_STATUS } from "../../../graphql/mutations";
+import { All_PRODUCTS } from "../../../graphql/queries";
+import { UPDATE_PRODUCT } from "../../../graphql/mutations";
 
 import { NextPageProps } from '../../../utils/PropTypes';
-import { ProductType, ProductFilter, UpdateStatusInput } from "../../../utils/interfaces";
+import { ProductType, ProductFilter } from "../../../utils/interfaces";
 
 import {
   DataTable,
@@ -42,44 +42,42 @@ const headerData = [
 ];
 
 const ProductsIndex: NextPage<NextPageProps> = ({ user }) => {
-  const { loading, error, data } = useQuery<{ products: ProductType[] }, ProductFilter>(GET_PRODUCTS);
+  const { loading, error, data } = useQuery<{ allProducts: ProductType[] }, ProductFilter>(All_PRODUCTS);
 
-  const [updateStatus] = useMutation<{ updateStatus: ProductType }, UpdateStatusInput>(UPDATE_STATUS);
+  const [
+    updateProduct
+  ] = useMutation<{updateProduct: ProductType}, {productId: string, status: string}>(UPDATE_PRODUCT);
 
   const renderActions = (id: string) => {
-    const product = data.products.find(x => x._id === id);
+    const product = data.allProducts.find(x => x._id === id);
     switch (product.status) {
       case 'approved':
         return (
-          <Fragment>
-            <OverflowMenuItem
-              itemText="Revoke Approval"
-              onClick={() => {
-                updateStatus({
-                  variables: { productId: id, status: 'pending' },
-                  refetchQueries: [
-                    { query: GET_PRODUCTS }
-                  ]
-                });
-              }}
-            />
-          </Fragment>
+          <OverflowMenuItem
+            itemText="Revoke Approval"
+            onClick={() => {
+              updateProduct({
+                variables: { productId: id, status: 'pending' },
+                refetchQueries: [
+                  { query: All_PRODUCTS }
+                ]
+              });
+            }}
+          />
         );
       case 'denied':
         return (
-          <Fragment>
-            <OverflowMenuItem
-              itemText="Revoke Denial"
-              onClick={() => {
-                updateStatus({
-                  variables: { productId: id, status: 'pending' },
-                  refetchQueries: [
-                    { query: GET_PRODUCTS }
-                  ]
-                });
-              }}
-            />
-          </Fragment>
+          <OverflowMenuItem
+            itemText="Revoke Denial"
+            onClick={() => {
+              updateProduct({
+                variables: { productId: id, status: 'pending' },
+                refetchQueries: [
+                  { query: All_PRODUCTS }
+                ]
+              });
+            }}
+          />
         );
       default:
         return (
@@ -87,10 +85,10 @@ const ProductsIndex: NextPage<NextPageProps> = ({ user }) => {
             <OverflowMenuItem
               itemText="Approve"
               onClick={() => {
-                updateStatus({
+                updateProduct({
                   variables: { productId: id, status: 'approved' },
                   refetchQueries: [
-                    { query: GET_PRODUCTS }
+                    { query: All_PRODUCTS }
                   ]
                 });
               }}
@@ -98,10 +96,10 @@ const ProductsIndex: NextPage<NextPageProps> = ({ user }) => {
             <OverflowMenuItem
               itemText="Deny"
               onClick={() => {
-                updateStatus({
+                updateProduct({
                   variables: { productId: id, status: 'denied' },
                   refetchQueries: [
-                    { query: GET_PRODUCTS }
+                    { query: All_PRODUCTS }
                   ]
                 });
               }}
@@ -122,7 +120,7 @@ const ProductsIndex: NextPage<NextPageProps> = ({ user }) => {
   return (
     <section className="section">
       <DataTable
-        rows={(data.products.map(product => ({ ...product, id: product._id })) as any[])}
+        rows={(data.allProducts.map(product => ({ ...product, id: product._id })) as any[])}
         headers={headerData}
         render={({ rows, headers, getHeaderProps, getSelectionProps, getRowProps }) => (
           <TableContainer title="All Products">

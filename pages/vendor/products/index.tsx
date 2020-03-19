@@ -3,7 +3,7 @@ import { useQuery, useMutation } from "@apollo/client";
 
 import withDefaultLayout from "../../../layouts/DefaultLayout";
 
-import { GET_PRODUCTS } from "../../../graphql/queries";
+import { All_PRODUCTS } from "../../../graphql/queries";
 import { ARCHIVE_PRODUCT, RESTORE_PRODUCT } from "../../../graphql/mutations";
 
 import { NextPageProps } from '../../../utils/PropTypes';
@@ -48,16 +48,16 @@ const headerData = [
 ];
 
 const ProductsIndex: NextPage<NextPageProps> = ({ user }) => {
-  const { loading, error, data } = useQuery<{ products: ProductType[] }, ProductFilter>(
-    GET_PRODUCTS,
+  const { loading, error, data } = useQuery<{ allProducts: ProductType[] }, ProductFilter>(
+    All_PRODUCTS,
     { variables: { userId: user.sub }, pollInterval: 5000 }
   );
 
-  const [archiveProduct] = useMutation<{ product: ProductType }, { productId: string }>(ARCHIVE_PRODUCT);
-  const [restoreProduct] = useMutation<{ product: ProductType }, { productId: string }>(RESTORE_PRODUCT);
+  const [archiveProduct] = useMutation<{ archiveProduct: ProductType }, { productId: string }>(ARCHIVE_PRODUCT);
+  const [restoreProduct] = useMutation<{ restoreProduct: ProductType }, { productId: string }>(RESTORE_PRODUCT);
 
   const renderArchived = (id: string) => {
-    const product = data.products.find(x => x._id === id);
+    const product = data.allProducts.find(x => x._id === id);
 
     if (product.archived) {
       return (
@@ -67,7 +67,7 @@ const ProductsIndex: NextPage<NextPageProps> = ({ user }) => {
             restoreProduct({
               variables: { productId: id },
               refetchQueries: [
-                { query: GET_PRODUCTS, variables: { userId: user.sub } }
+                { query: All_PRODUCTS, variables: { userId: user.sub } }
               ]
             });
           }}
@@ -82,7 +82,7 @@ const ProductsIndex: NextPage<NextPageProps> = ({ user }) => {
           archiveProduct({
             variables: { productId: id },
             refetchQueries: [
-              { query: GET_PRODUCTS, variables: { userId: user.sub } }
+              { query: All_PRODUCTS, variables: { userId: user.sub } }
             ]
           });
         }}
@@ -101,7 +101,7 @@ const ProductsIndex: NextPage<NextPageProps> = ({ user }) => {
   return (
     <section className="section">
       <DataTable
-        rows={(data.products.map(product => ({
+        rows={(data.allProducts.map(product => ({
           ...product,
           id: product._id,
           archived: String(product.archived).toUpperCase()

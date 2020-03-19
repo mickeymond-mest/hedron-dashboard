@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import withDefaultLayout from "../../../layouts/DefaultLayout";
 import { useQuery } from "@apollo/client";
 import { ProductType } from "../../../utils/interfaces";
-import { GET_PRODUCT_BY_ID } from "../../../graphql/queries";
+import { PRODUCT_BY_ID } from "../../../graphql/queries";
 import { NextPageProps } from "../../../utils/PropTypes";
 import { withRouter } from "next/router";
 import { InlineNotification } from "carbon-components-react";
@@ -15,8 +15,8 @@ const DyanamicInlineLoading = dynamic(
 );
 
 const ProdcutDetail: NextPage<NextPageProps> = ({ user, router }) => {
-  const { loading, error, data } = useQuery<{ getProductById: ProductType }, { productId: string }>(
-    GET_PRODUCT_BY_ID,
+  const { loading, error, data } = useQuery<{ productById: ProductType }, { productId: string }>(
+    PRODUCT_BY_ID,
     { variables: { productId: (router.query.id as string) } }
   );
 
@@ -34,7 +34,7 @@ const ProdcutDetail: NextPage<NextPageProps> = ({ user, router }) => {
         <div className="card">
           <div className="card-content">
             <p className="title">
-              {data.getProductById.name}
+              {data.productById.name}
             </p>
           </div>
         </div>

@@ -1,12 +1,12 @@
 import { gql } from '@apollo/client';
 
-export const GET_PRODUCTS = gql`
-  query Products(
+export const All_PRODUCTS = gql`
+  query AllProducts(
     $userId: String
     $status: String
     $archived: Boolean
   ) {
-    products(
+    allProducts(
       filter: {
         userId: $userId
         status: $status
@@ -76,11 +76,11 @@ export const GET_PRODUCTS = gql`
   }
 `;
 
-export const GET_PRODUCT_BY_ID = gql`
-  query GetProductById(
+export const PRODUCT_BY_ID = gql`
+  query ProductById(
     $productId: String!
   ) {
-    getProductById(
+    productById(
       productId: $productId
     ) {
       _id
@@ -131,11 +131,11 @@ export const GET_PRODUCT_BY_ID = gql`
   }
 `;
 
-export const GET_LEADS = gql`
-  query DemoRequests(
+export const All_DEMO_REQUESTS = gql`
+  query AllDemoRequests(
     $receiver: String!
   ) {
-    demoRequests(
+    allDemoRequests(
       filter: {
         receiver: $receiver
       }
