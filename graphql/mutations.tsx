@@ -3,6 +3,7 @@ import { gql } from '@apollo/client';
 export const ADD_PRODUCT = gql`
   mutation AddProduct(
     $name: String!
+    $summary: String!
     $description: String!
     $values: [ValueInput!]!
     $features: [SelectableInput!]!
@@ -17,6 +18,7 @@ export const ADD_PRODUCT = gql`
     addProduct(
       product: {
         name: $name
+        summary: $summary
         description: $description
         values: $values
         features: $features

@@ -1,29 +1,32 @@
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 import { NextComponentType } from 'next';
 
-import SunEditor, {buttonList} from 'suneditor-react';
+import RichTextEditor from 'react-rte';
 
 type RichTextProps = {
   onContentChange: Function;
 }
 
 const RichText: NextComponentType<any, any, RichTextProps> = ({ onContentChange }) => {
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState(RichTextEditor.createEmptyValue())
 
   return (
-    <SunEditor
-      showToolbar={true}
-      enableToolbar={true}
-      setOptions={{
-        height: 300,
-        buttonList: buttonList.complex
-      }}
-      setContents={content}
-      onChange={(value) => {
-        setContent(value);
-        onContentChange(value);
-      }}
-    />
+    <Fragment>
+      <div className="bx--row">
+        <div className="bx--col">
+          <label className="hedron-label">Full Product Description</label>
+        </div>
+      </div>
+      <div className="editor">
+        <RichTextEditor
+          value={content}
+          onChange={editorContent => {
+            onContentChange(editorContent.toString('html'));
+            setContent(editorContent);
+          }}
+        />
+      </div>
+    </Fragment>
   );
 }
 

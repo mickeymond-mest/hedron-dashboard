@@ -1,45 +1,66 @@
 import { NextComponentType } from "next";
 
-type HeaderProps = {
-  toggleDrawer: Function
+import {
+  Header,
+  HeaderName,
+  HeaderNavigation,
+  HeaderMenuItem,
+  HeaderGlobalBar,
+  SkipToContent,
+  HeaderGlobalAction,
+  HeaderPanel,
+  Switcher,
+  SwitcherItem,
+} from 'carbon-components-react';
+
+import Search20 from '@carbon/icons-react/lib/search/20';
+import Notification20 from '@carbon/icons-react/lib/notification/20';
+import AppSwitcher20 from '@carbon/icons-react/lib/app-switcher/20';
+import UserProfile20 from '@carbon/icons-react/lib/user--profile/20';
+import { useState } from "react";
+
+const AppHeader: NextComponentType = () => {
+  const [hidePanel, setHidePanel] = useState(true);
+
+  return (
+    <Header aria-label="Hedron Dashboard">
+      <SkipToContent />
+      <HeaderName href="/" prefix="Hedron">
+        Dashboard
+      </HeaderName>
+      <HeaderNavigation aria-label="Hedron Dasboard">
+        <HeaderMenuItem href="https://hedron.now.sh">
+          Discover & Buy Products
+        </HeaderMenuItem>
+      </HeaderNavigation>
+      <HeaderGlobalBar>
+        <HeaderGlobalAction aria-label="Search" onClick={() => { }}>
+          <Search20 />
+        </HeaderGlobalAction>
+        <HeaderGlobalAction aria-label="Notifications" onClick={() => { }}>
+          <Notification20 />
+        </HeaderGlobalAction>
+        <HeaderGlobalAction aria-label="User Profile" onClick={() => {
+          setHidePanel(!hidePanel);
+        }}>
+          <UserProfile20 />
+        </HeaderGlobalAction>
+      </HeaderGlobalBar>
+      <HeaderPanel
+        aria-label="Header Panel"
+        hidden={hidePanel}
+        expanded>
+          <Switcher
+            aria-label="Main Switcher">
+            <SwitcherItem
+              aria-label="Switcher Item"
+              href="/api/logout">
+              Sign Out
+            </SwitcherItem>
+          </Switcher>
+        </HeaderPanel>
+    </Header>
+  );
 }
-
-const Header: NextComponentType<any, any, HeaderProps> = ({ toggleDrawer }) => (
-  <nav className="navbar hedron-navbar" role="navigation" aria-label="main navigation">
-    <div className="navbar-brand">
-      <div
-        className="navbar-item"
-        onClick={e => {
-          toggleDrawer();
-        }}
-      >
-        <i className="material-icons" style={{ fontSize: '2rem' }}>menu</i>
-      </div>
-    </div>
-
-    <div className="navbar-menu">
-      <div className="navbar-start">
-      </div>
-
-      <div className="navbar-end">
-        <div className="navbar-item">
-          <div className="control has-icons-left has-icons-right">
-            <input className="input hedron-navbar-search" type="text" placeholder="What do you want to find today?" />
-            <span className="icon is-small is-left">
-              <i className="material-icons">search</i>
-            </span>
-          </div>
-        </div>
-        <div className="navbar-item">
-          <div className="buttons">
-            <a href="/api/logout" className="button is-danger">
-              <strong>Log Out</strong>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </nav>
-);
       
-export default Header;
+export default AppHeader;

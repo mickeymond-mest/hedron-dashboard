@@ -28,77 +28,76 @@ export const categories = [
 export const links = {
   vendor: [
     {
-      label: "Home",
-      icon: "home",
-      link: "/index",
-      as: "/",
-      subs: []
-    },
-    {
       label: "Dashboard",
       icon: "dashboard",
-      link: "/vendors/dashboard",
-      as: "/vendors/dashboard",
+      link: "/vendor/dashboard",
+      as: "/vendor/dashboard",
       subs: []
     },
     {
       label: "Inbox",
       icon: "inbox",
-      link: "/vendors/inbox",
-      as: "/vendors/inbox",
+      link: "/vendor/inbox",
+      as: "/vendor/inbox",
       subs: []
     },
     {
       label: "Products",
       icon: "verified_user",
-      link: "/vendors/products",
-      as: "/vendors/products",
+      link: "/vendor/products",
+      as: "/vendor/products",
       subs: [
+        {
+          label: "All Products",
+          icon: "verified_user",
+          link: "/vendor/products",
+          as: "/vendor/products"
+        },
         {
           label: "Add Product",
           icon: "add",
-          link: "/vendors/products/create",
-          as: "/vendors/products/create"
+          link: "/vendor/products/create",
+          as: "/vendor/products/create"
         },
       ]
     },
     {
       label: "My Leads",
       icon: "perm_identity",
-      link: "/vendors/leads",
-      as: "/vendors/leads",
-      subs: []
+      link: "/vendor/leads",
+      as: "/vendor/leads",
+      subs: [
+        {
+          label: "All Leads",
+          icon: "add",
+          link: "/vendor/leads",
+          as: "/vendor/leads"
+        },
+      ]
     },
     {
       label: "Chat Room",
       icon: "chat",
-      link: "/vendors/chat",
-      as: "/vendors/chat",
+      link: "/vendor/chat",
+      as: "/vendor/chat",
       subs: []
     },
     {
       label: "Help Center",
       icon: "help",
-      link: "/vendors/help",
-      as: "/vendors/help",
+      link: "/vendor/help",
+      as: "/vendor/help",
       subs: []
     },
     {
       label: "Settings",
       icon: "settings",
-      link: "/vendors/settings",
-      as: "/vendors/settings",
+      link: "/vendor/settings",
+      as: "/vendor/settings",
       subs: []
     },
   ],
   admin: [
-    {
-      label: "Home",
-      icon: "home",
-      link: "/index",
-      as: "/",
-      subs: []
-    },
     {
       label: "Dashboard",
       icon: "dashboard",
@@ -106,23 +105,27 @@ export const links = {
       as: "/admin/dashboard",
       subs: []
     },
-    // { label: "Inbox", icon: "inbox", link: "/inbox", as: "/inbox" },
     {
       label: "Products",
       icon: "verified_user",
       link: "/admin/products",
       as: "/admin/products",
-      subs: []
+      subs: [
+        {
+          label: "All Products",
+          icon: "verified_user",
+          link: "/admin/products",
+          as: "/admin/products"
+        },
+      ]
     },
     {
-      label: "Vendors",
+      label: "Vendor",
       icon: "perm_identity",
-      link: "/admin/vendors",
-      as: "/admin/vendors",
+      link: "/admin/vendor",
+      as: "/admin/vendor",
       subs: []
     },
-    // { label: "Chat Room", icon: "chat", link: "/admin/chat", as: "/admin/chat" },
-    // { label: "Help Center", icon: "help", link: "/admin/help", as: "/admin/help" },
     {
       label: "Settings",
       icon: "settings",
