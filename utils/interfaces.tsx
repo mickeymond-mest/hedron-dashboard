@@ -187,6 +187,7 @@ export interface IQuery {
   productById(productId: string): ProductType | Promise<ProductType>;
   allDemoRequests(filter: DemoRequestFilter): DemoRequestType[] | Promise<DemoRequestType[]>;
   allVendors(): VendorType[] | Promise<VendorType[]>;
+  vendor(): VendorType | Promise<VendorType>;
 }
 
 export interface SelectableType {
