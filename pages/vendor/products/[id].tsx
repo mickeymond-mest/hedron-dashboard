@@ -29,16 +29,13 @@ const ProdcutDetail: NextPage<NextPageProps> = ({ user, router }) => {
   }
 
   return (
-    <section className="section">
-      <section className="section">
-        <div className="card">
-          <div className="card-content">
-            <p className="title">
-              {data.productById.name}
-            </p>
-          </div>
+    <section>
+      <div className="bx--grid">
+        <div className="bx--row">
+          <h2>Product Detail | {data.productById.name}</h2>
         </div>
-      </section>
+        <br />
+      </div>
     </section>
   );
 }
