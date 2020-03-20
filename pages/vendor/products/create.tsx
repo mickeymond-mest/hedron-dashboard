@@ -66,7 +66,6 @@ const ProductsCreate: NextPage<NextPageProps> = ({ user }) => {
             <br />
             <TextInput
               id="name"
-              defaultValue="AgileCRM"
               labelText="Product Name"
               onChange={e => {
                 setName(e.target.value);
@@ -76,7 +75,6 @@ const ProductsCreate: NextPage<NextPageProps> = ({ user }) => {
 
             <TextInput
               id="summary"
-              defaultValue="CRM software allows you to build, organise and present database of your customer information which you and your team can update as and when new information is discovered. It's a central repository of all your customer and prospect data which enables"
               labelText="Product Summary"
               onChange={e => {
                 setSummary(e.target.value);

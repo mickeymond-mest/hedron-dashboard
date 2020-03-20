@@ -22,8 +22,8 @@ type ProductPlanProps = {
 
 const ProductPlan: NextComponentType<any, any, ProductPlanProps> = (props) => {
   const [plans, setPlans] =  useState([]);
-  const [name, setName] =  useState('Free Trial');
-  const [price, setPrice] =  useState('23.34');
+  const [name, setName] =  useState('');
+  const [price, setPrice] =  useState('');
   const [features, setFeatures] =  useState([]);
 
   return (

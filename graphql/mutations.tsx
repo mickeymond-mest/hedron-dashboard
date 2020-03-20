@@ -1,5 +1,29 @@
 import { gql } from '@apollo/client';
 
+export const UPDATE_VENDOR = gql`
+  mutation UpdateVendor(
+    $update: VendorInput!
+    $vendorId: String!
+  ) {
+    updateVendor(
+      update: $update
+      vendorId: $vendorId
+    ) {
+      _id
+    }
+  }
+`;
+
+export const DELETE_VENDOR = gql`
+  mutation DeleteVendor(
+    $vendorId: String!
+  ) {
+    deleteVendor(vendorId: $vendorId) {
+      _id
+    }
+  }
+`;
+
 export const ADD_PRODUCT = gql`
   mutation AddProduct(
     $name: String

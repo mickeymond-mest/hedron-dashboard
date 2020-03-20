@@ -9,8 +9,8 @@ type ValuePropProps = {
 
 const ValueProp: NextComponentType<any, any, ValuePropProps> = (props) => {
   const [values, setValues] =  useState([]);
-  const [name, setName] =  useState('Automated Reminders');
-  const [description, setDescription] =  useState('Send your sales agent reminders');
+  const [name, setName] =  useState('');
+  const [description, setDescription] =  useState('');
 
   return (
     <Tile>
