@@ -57,10 +57,12 @@ const ProductsCreate: NextPage<NextPageProps> = ({ user }) => {
 
   return (
     <section>
-      <h2>Product Addition Form</h2>
-      <br />
-
       <div className="bx--grid">
+        <div className="bx--row">
+          <h2>Product Addition Form</h2>
+        </div>
+        <br />
+        
         <div className="bx--row">
           <div className="bx--col">
             <br />

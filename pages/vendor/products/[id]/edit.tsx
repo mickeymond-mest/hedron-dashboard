@@ -75,10 +75,12 @@ const ProductsEdit: NextPage<NextPageProps> = ({ user, router }) => {
 
   return (
     <section>
-      <h2>Product Addition Form</h2>
-      <br />
-
       <div className="bx--grid">
+        <div className="bx--row">
+          <h2>Edit Product | {response.productById.name}</h2>
+        </div>
+        <br />
+        
         <div className="bx--row">
           <div className="bx--col">
             <br />
