@@ -120,11 +120,18 @@ export const links = {
       ]
     },
     {
-      label: "Vendor",
+      label: "Vendors",
       icon: "perm_identity",
-      link: "/admin/vendor",
-      as: "/admin/vendor",
-      subs: []
+      link: "/admin/vendors",
+      as: "/admin/vendors",
+      subs: [
+        {
+          label: "All Vendors",
+          icon: "verified_user",
+          link: "/admin/vendors",
+          as: "/admin/vendors"
+        },
+      ]
     },
     {
       label: "Settings",

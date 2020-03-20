@@ -1,5 +1,45 @@
 import { gql } from '@apollo/client';
 
+export const VENDOR_BY_ID = gql`
+  query VendorById(
+    $vendorId: String!
+  ) {
+    vendorById(
+      vendorId: $vendorId
+    ) {
+      _id
+      userId
+      name
+      contact
+      website
+      facebook
+      location
+      linkedIn
+      twitter
+      founded
+      status
+    }
+  }
+`;
+
+export const ALL_VENDORS = gql`
+  query AllVendors {
+    allVendors {
+      _id
+      userId
+      name
+      contact
+      website
+      facebook
+      location
+      linkedIn
+      twitter
+      founded
+      status
+    }
+  }
+`;
+
 export const VENDOR = gql`
   query Vendor {
     vendor {

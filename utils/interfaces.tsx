@@ -88,6 +88,7 @@ export interface VendorInput {
   linkedIn?: string;
   twitter?: string;
   founded?: string;
+  status?: string;
 }
 
 export interface AttachmentType {
@@ -143,6 +144,7 @@ export interface IMutation {
   askQuestion(chat: ChatInput): ChatType | Promise<ChatType>;
   addVendor(vendor: VendorInput): VendorType | Promise<VendorType>;
   updateVendor(update: VendorInput, vendorId: string): VendorType | Promise<VendorType>;
+  approveVendor(update: VendorInput, vendorId: string): VendorType | Promise<VendorType>;
   deleteVendor(vendorId: string): VendorType | Promise<VendorType>;
 }
 
@@ -188,6 +190,7 @@ export interface IQuery {
   allDemoRequests(filter: DemoRequestFilter): DemoRequestType[] | Promise<DemoRequestType[]>;
   allVendors(): VendorType[] | Promise<VendorType[]>;
   vendor(): VendorType | Promise<VendorType>;
+  vendorById(vendorId: string): VendorType | Promise<VendorType>;
 }
 
 export interface SelectableType {
@@ -213,4 +216,5 @@ export interface VendorType {
   linkedIn: string;
   twitter: string;
   founded: string;
+  status: string;
 }

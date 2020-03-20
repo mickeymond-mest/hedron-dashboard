@@ -14,7 +14,7 @@ const DyanamicInlineLoading = dynamic(
   { ssr: false }
 );
 
-const ProdcutDetail: NextPage<NextPageProps> = ({ user, router }) => {
+const ProductDetail: NextPage<NextPageProps> = ({ user, router }) => {
   const { loading, error, data } = useQuery<{ productById: ProductType }, { productId: string }>(
     PRODUCT_BY_ID,
     { variables: { productId: (router.query.id as string) } }
@@ -40,4 +40,4 @@ const ProdcutDetail: NextPage<NextPageProps> = ({ user, router }) => {
   );
 }
 
-export default withDefaultLayout(withRouter(ProdcutDetail));
+export default withDefaultLayout(withRouter(ProductDetail));
