@@ -1,5 +1,21 @@
 import { gql } from '@apollo/client';
 
+export const APPROVE_VENDOR = gql`
+  mutation ApproveVendor(
+    $vendorId: String!
+    $update: VendorInput!
+  ) {
+    approveVendor(
+      vendorId: $vendorId
+      update: $update
+    ) {
+      _id
+      status
+      linkedIn
+    }
+  }
+`;
+
 export const UPDATE_VENDOR = gql`
   mutation UpdateVendor(
     $update: VendorInput!
