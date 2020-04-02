@@ -65,6 +65,15 @@ export interface ProductInput {
   attachments?: AttachmentInput[];
 }
 
+export interface ReviewInput {
+  userId: string;
+  productId: string;
+  name: string;
+  picture: string;
+  rating: number;
+  review: string;
+}
+
 export interface SearchQueryInput {
   query?: string;
 }
@@ -146,6 +155,7 @@ export interface IMutation {
   updateVendor(update: VendorInput, vendorId: string): VendorType | Promise<VendorType>;
   approveVendor(update: VendorInput, vendorId: string): VendorType | Promise<VendorType>;
   deleteVendor(vendorId: string): VendorType | Promise<VendorType>;
+  addReview(review: ReviewInput): ReviewType | Promise<ReviewType>;
 }
 
 export interface OutputType {
@@ -180,6 +190,7 @@ export interface ProductType {
   logo: AttachmentType;
   featured: AttachmentType;
   attachments: AttachmentType[];
+  reviews: ReviewType[];
 }
 
 export interface IQuery {
@@ -191,6 +202,16 @@ export interface IQuery {
   allVendors(): VendorType[] | Promise<VendorType[]>;
   vendor(): VendorType | Promise<VendorType>;
   vendorById(vendorId: string): VendorType | Promise<VendorType>;
+}
+
+export interface ReviewType {
+  _id: string;
+  userId: string;
+  productId: string;
+  name: string;
+  picture: string;
+  rating: number;
+  review: string;
 }
 
 export interface SelectableType {
