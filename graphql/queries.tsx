@@ -146,6 +146,7 @@ export const PRODUCT_BY_ID = gql`
       status
       archived
       name
+      summary
       description
       values {
         name
@@ -183,6 +184,15 @@ export const PRODUCT_BY_ID = gql`
       }
       attachments {
         url
+      }
+      reviews {
+        _id
+        userId
+        productId
+        name
+        picture
+        rating
+        review
       }
     }
   }

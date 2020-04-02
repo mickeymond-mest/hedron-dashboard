@@ -35,13 +35,6 @@ export const links = {
       subs: []
     },
     {
-      label: "Inbox",
-      icon: "inbox",
-      link: "/vendor/inbox",
-      as: "/vendor/inbox",
-      subs: []
-    },
-    {
       label: "Products",
       icon: "verified_user",
       link: "/vendor/products",
@@ -74,13 +67,6 @@ export const links = {
           as: "/vendor/leads"
         },
       ]
-    },
-    {
-      label: "Chat Room",
-      icon: "chat",
-      link: "/vendor/chat",
-      as: "/vendor/chat",
-      subs: []
     },
     {
       label: "Help Center",
